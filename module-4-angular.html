@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Code for All_</title>
+
+    <meta name="description" content="Transforma a tua vida com os cursos técnicos do Code for All_, antiga Academia de Código. Da programação à cibersegurança, oferecemos cursos para todos os níveis. Junta-te aos nossos ex-alunos e começa a programar o teu caminho para o sucesso">
+    <meta name="keyword" content="Code,for,All, portugal">
+    <meta name="author" content="Code For All_">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/ac.css" id="theme">
+    <!-- Use for presentation specific styling -->
+    <link rel="stylesheet" href="css/presentation.css">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+    		<script src="lib/js/html5shiv.js"></script>
+    		<![endif]-->
+</head>
+
+<body>
+
+    <div class="header">
+        <img id="logo" src="logo.png" />
+    </div>
+
+    <div class="reveal">
+
+        <div class="slides">
+            <section>
+                <section>
+                    <img src="images/3/angular/angular-logo.png" />
+                    <p class="fragment">HTML Enhanced for web apps!</p>
+                    <p class="fragment">The Superheroic JavaScript MVW Framework</p>
+                </section>
+
+                <section>
+                    <img class="logo float-right" src="images/3/angular/angularjs-vs-jquery.jpg" />
+                    <h2>Why do I need it?</h2>
+                    <p class="fragment">
+                        <u>jQuery</u> was built to abstract away browser idiosyncracies. It is meant for dealing with the DOM,
+                        finding elements and changing the UI</p>
+                    <p class="fragment">
+                        <u>AngularJS</u> was built as a layer on top of jQuery, to add MVC concepts to front end engineering.
+                        AngularJS gives you data-binding, templating, custom components.</p>
+                    <p class="fragment">Additionally, AngularJS gives you
+                        <u>structures and concepts</u> that apply across various projects, like Controllers, Services and Directives.</p>
+                </section>
+
+                <section>
+                    <h2>Facts</h2>
+                    <p class="fragment">100% Client Side JavaScript</p>
+                    <p class="fragment">It is not a library like jQuery</p>
+                    <p class="fragment">It is a full featured SPA Framework</p>
+                    <p class="fragment">Will not make your application look prettier like Bootstrap or Foundation</p>
+
+                    <aside class="notes">
+                        SPA (Single Page Apps) - extremely good for very responsive sites
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Is it popular?</h2>
+                    <img class="fragment" src="images/3/angular/js-popularity.png" />
+                </section>
+
+                <section>
+                    <h2>What does an Angular app look like?</h2>
+                    <p class="fragment">SPAs are applications that provide a fluid UX by loading all necessary code with a single page load in
+                        a browser
+                    </p>
+                    <p class="fragment">All the application content is dynamically added to and removed from that one page</p>
+                    <img class="fragment" style="max-height: 300px;" src="images/3/angular/architecture.png" />
+
+                    <aside class="notes">
+                        UX (User Experience)
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>How fast can I learn Angular?</h2>
+                    <img class="fragment" style="max-height: 450px;" src="images/3/angular/angular-feelings.png" />
+                </section>
+
+                <section>
+                    <h2>Main Components</h2>
+                    <img class="fragment" src="images/3/angular/components.png" />
+                    <p class="fragment">...there are more...</p>
+                </section>
+
+                <section>
+                    <h2>One Way Data Binding</h2>
+                    <img class="fragment" src="images/3/angular/one-way-db.png" />
+                    <p class="fragment">This is the data binding used by most classical templating engines, where the developer has to make sure
+                        the view is kept in sync with the model and vice-versa.</p>
+                </section>
+
+                <section>
+                    <h2>Two Way Data Binding</h2>
+                    <p class="fragment">Eliminates the need of event binding and handling</p>
+                    <img class="fragment" src="images/3/angular/two-way-db.png" />
+                    <small>
+                <p class="fragment">Template based on HTML + custom markup is compiled on the browser, producing a live view</p>
+                <p class="fragment">Any changes to the view are immediately reflected in the model, and changes to the model are propagated to the view</p>
+                </small>
+
+                    <aside class="notes">
+                        Other template systems:
+                        <ul>
+                            <li>jade template</li>
+                            <li>swig template</li>
+                            <li>handlebars template</li>
+                            <li>mustache template</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <div class="exercise">
+                        <h2>{ Hands On }</h2>
+                        <h3>Two Way Data Binding</h3>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Directives</h2>
+                    <small>
+                <p class="fragment">A directive is something that introduces <u>new syntax</u></p>
+                <p class="fragment">Angular Directives are markers on a DOM element which tell the angular compiler to attach specific behavior to it</p>
+                <p class="fragment">They are the <u>most important</u> components of any AngularJS application. AngularJS ships with a wide range of directives, but often we need to create application specific ones</p>
+                </small>
+                    <pre class="fragment">
+                    <code class="html" data-trim contenteditable>
+&lt;html&gt;
+    &lt;head&gt;&lt;/head&gt;
+    &lt;body ng-controller="Hello"&gt;
+        ...
+        &lt;/body&gt;
+&lt;/html&gt;
+                    </code>
+                </pre>
+
+                    <pre class="fragment">
+                    <code class="javascript" data-trim contenteditable>
+function Hello() {
+    alert('Hello, I am an Angular controller!');
+}
+                    </code>
+                </pre>
+                </section>
+
+                <section>
+                    <h2>Custom Directives</h2>
+                    <p class="fragment">Angular gives you the power to extend the existing HTML vocabulary by creating new directives</p>
+                    <pre class="fragment">
+                    <code class="html" data-trim contenteditable>
+&lt;html&gt;
+    &lt;body&gt;
+        &lt;pacman&gt;&lt;/pacman&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+                    </code>
+                </pre>
+                    <img class="fragment" src="images/3/angular/pacman.gif" />
+                </section>
+
+                <section>
+                    <h2>Modules</h2>
+                    <p class="fragment">Angular apps don't have a main method. Instead modules declaratively specify how an application should
+                        be bootstrapped
+                    </p>
+                    <img class="fragment" src="images/3/angular/modules.png" />
+                    <p class="fragment">Inside of a module you can create
+                        <u>controllers</u>,
+                        <u>services</u>,
+                        <u>filters</u> and
+                        <u>directives</u>
+                    </p>
+
+                    <aside class="notes">
+                        A module can depend on other modules.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Application Bootstrapping</h2>
+                    <p class="fragment">Modules can be created or accessed using the module property of the
+                        <u>global</u> angular object</p>
+                    <pre class="fragment">
+                    <code class="javascript" data-trim contenteditable>
+// Create a new angular module myApp that depends on module1 and module2
+var app = angular.module('myApp', ['module1', 'module2']);
+
+// Reference an existing module in your code
+var module1 = angular.module('module1');
+                    </code>
+                </pre>
+                    <p class="fragment">The
+                        <u>ng-app</u> directive can be used to bootstrap a module by its name:</p>
+                    <pre class="fragment">
+                    <code class="html" data-trim contenteditable>
+&lt;!-- reference the new module --&gt;
+&lt;html ng-app="myApp"&gt;&lt;/html&gt;
+                    </code>
+                </pre>
+
+                    <aside class="notes">
+                        It's a very commum mistake thinking that both methods do the same thing.. They do not, one creates a module, the other is
+                        a getter for the module.<br> Modules are to Angular as packages are to Java.<br>                        Directives can be of elements or of attributes.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Angular MVC</h2>
+                    <img style="max-height: 400px;" src="images/3/angular/mvc.png" />
+                </section>
+
+                <section>
+                    <h2>View Templates</h2>
+                    <p class="fragment">In Angular, templates are written with
+                        <u>HTML</u> that contains Angular-specific elements and attributes</p>
+                    <p class="fragment">Angular combines the template with information from the model and controller to render the dynamic view
+                        that the user sees in the browser</p>
+                    <p class="fragment">The types of Angular elements and attributes you can use in templates are:</p>
+                    <ul>
+                        <li class="fragment">Directives</li>
+                        <li class="fragment">Expressions</li>
+                        <li class="fragment">Filters</li>
+                        <li class="fragment">Form Controls</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Expressions</h2>
+                    <p class="fragment">JavasScript like code snippets that are usually placed in bindings such as
+                        <u>{{ expression }}</u>
+                    </p>
+                    <pre class="fragment">
+                    <code class="html" data-trim contenteditable>
+&lt;!-- angular expression --&gt;
+&lt;p&gt;{{ "I have "}} {{ 4 + 6 }} Euros&lt;p&gt;
+
+&lt;!-- angular expression after evaluation --&gt;
+&lt;p&gt;I have 10 Euros&lt;p&gt;
+                    </code>
+                </pre>
+                </section>
+
+                <section>
+                    <h2>Filters</h2>
+                    <p class="fragment">Change the way expressions are displayed</p>
+                    <pre class="fragment">
+                    <code class="html" data-trim contenteditable>
+&lt;!-- usage of the angular uppercase filter --&gt;
+&lt;h3&gt;{{ user.name | uppercase }}&lt;h3&gt;
+                    </code>
+                </pre>
+                    <p class="fragment">Angular comes with a collection of built-in filters, but it is easy to define custom ones</p>
+
+                    <aside class="notes">
+                        Works as the shell "|" , you can chain filters.
+                    </aside>
+
+                </section>
+
+                <section>
+                    <h2>Controllers</h2>
+                    <p class="fragment">Contains presentation logic and bind the view with the model using scopes</p>
+                    <img class="fragment" src="images/3/angular/scope-view.png" />
+                    <small class="fragment">Instantiated only when needed and discarded every time we switch a route or reload a view</small>
+                    <pre class="fragment" style="margin-top: 0px;">
+                    <code class="javascript" data-trim contenteditable>
+// obtain the application module
+var app = angular.module('myApp');
+
+// declare a new controller on this module
+app.controller('MyController', function () {
+    console.log('I am a useless controller...');
+});
+                    </code>
+                </pre>
+
+                    <aside class="notes">
+                        By convention the controllers names in Angular start with capital letter.<br> John Papa (Angular
+                        style guide) https://github.com/johnpapa/angular-styleguide/tree/master/a1
+                    </aside>
+
+                </section>
+
+                <section>
+                    <h2>Scope</h2>
+                    <p class="fragment">Controllers become useful when they add behaviour and data to the $scope object</p>
+                    <img class="fragment" src="images/3/angular/scope.png" />
+                    <small class="fragment">In the scope we store everything we need to display or call from the view</small>
+                    <pre class="fragment">
+                    <code class="javascript" data-trim contenteditable>
+function ChatController($scope) {
+
+    // initialize the chat history with a couple of messages
+    $scope.messages = ["I &lt;3 sidra", "Save the whales!"];
+
+    // add a new message to the chat history
+    $scope.add = function() {
+        $scope.messages.push($scope.newMessage);
+        $scope.newMessage = "";
+    }
+}
+                    </code>
+                </pre>
+                </section>
+
+                <section>
+                    <div class="exercise">
+                        <h2>{ Hands On }</h2>
+                        <h3>TODO list exercise</h3>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Services</h2>
+                    <p class="fragment">Provide a method to keep data around for the lifetime of the app and communicate across controllers</p>
+                    <p class="fragment">Services are singleton objects that are instantiated only once per app and lazy-loaded</p>
+                    <p class="fragment">Angular comes with several built-in services, but for any decent complex application it's required to
+                        make custom services</p>
+                </section>
+
+                <section>
+                    <h2>$injector</h2>
+                    <p class="fragment">Service responsible for handling all instantiations of Angular components and dependencies, including
+                        modules, directives, controllers, etc.</p>
+                    <pre class="fragment">
+                    <code class="javascript" data-trim contenteditable>
+// create a new angular module
+var app = angular.module('myApp', []);
+
+// Angular does this for us, but just for fun, let's
+// create a new injector for our module, it dependes on angular core
+var $injector = angular.injector(['ng', 'myApp']);
+
+// Ask the injector for an instance of the angular log service
+var $log = $injector.get('$log');
+
+// Log some message...
+$log.info('.. some informative log message ..');
+                    </code>
+                </pre>
+                </section>
+
+                <section>
+                    <h2>$http</h2>
+                </section>
+
+                <section>
+                    <h2>$resource</h2>
+                </section>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // Full list of configuration options available at:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: false,
+            keyboard: true,
+            center: true,
+            help: true,
+            progress: true,
+            slideNumber: true,
+            history: false,
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            menu: {
+                // Specifies which side of the presentation the menu will
+                // be shown. Use 'left' or 'right'.
+                side: 'left',
+
+                // Add slide numbers to the titles in the slide list.
+                // Use 'true' or format string (same as reveal.js slide numbers)
+                numbers: false,
+
+                // Hide slides from the menu that do not have a title.
+                // Set to 'true' to only list slides with titles.
+                hideMissingTitles: true,
+
+                // Add markers to the slide titles to indicate the
+                // progress through the presentation
+                markers: false,
+
+                // Specify custom panels to be included in the menu, by
+                // providing an array of objects with 'title', 'icon'
+                // properties, and either a 'src' or 'content' property.
+                custom: false,
+
+                // Specifies the themes that will be available in the themes
+                // menu panel. Set to 'false' to hide themes panel.
+                themes: false,
+
+                // Specifies if the transitions menu panel will be shown.
+                transitions: true,
+
+                // Adds a menu button to the slides to open the menu panel.
+                // Set to 'false' to hide the button.
+                openButton: true,
+
+                // If 'true' allows the slide number in the presentation to
+                // open the menu panel. The reveal.js slideNumber option must
+                // be displayed for this to take effect
+                openSlideNumber: false,
+
+                // If true allows the user to open and navigate the menu using
+                // the keyboard. Standard keyboard interaction with reveal
+                // will be disabled while the menu is open.
+                keyboard: true
+            },
+
+
+            // Specifies section for limits-app
+            section: 27,
+            // Optional reveal.js plugins
+            dependencies: [
+                {
+                    src: "lib/js/classList.js",
+                    condition: function() {
+                        return !document.body.classList;
+                    }
+                },
+                {
+                    src: "plugin/markdown/marked.js",
+                    condition: function() {
+                        return !!document.querySelector("[data-markdown]");
+                    }
+                },
+                {
+                    src: "plugin/markdown/markdown.js",
+                    condition: function() {
+                        return !!document.querySelector("[data-markdown]");
+                    }
+                },
+                {
+                    src: "plugin/highlight/highlight.js",
+                    async: true,
+                    condition: function() {
+                        return !!document.querySelector("pre code");
+                    },
+                    callback: function() {
+                        hljs.initHighlightingOnLoad();
+                    }
+                },
+                {
+                    src: "plugin/zoom-js/zoom.js",
+                    async: true
+                },
+                {
+                    src: "plugin/notes/notes.js",
+                    async: true
+                },
+                {
+                    src: "plugin/bootcamp/config.js",
+                    async: false
+                },
+                {
+                    src: "plugin/hide-slides/index.js",
+                    async: true
+                },
+                {
+                    src: "//cdn.socket.io/socket.io-1.4.5.js",
+                    async: true
+                },
+                {
+                    src: "plugin/multiplex/config.js",
+                    async: false
+                },
+                {
+                    src: "plugin/multiplex/client.js",
+                    async: true
+                },
+                {
+                    src: "plugin/multiplex/master.js",
+                    async: true
+                }
+            ]
+        });
+    </script>
+
+</body>
+
+</html>

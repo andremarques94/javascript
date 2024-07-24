@@ -1,0 +1,69 @@
+/**
+ * <Academia de Código_> theme for reveal.js based on the official Black theme.
+ *
+ */
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+
+// ---------------------------------------------
+// Include theme-specific fonts
+//@import url(https://fonts.googleapis.com/css?family=Montserrat:700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic);
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,300,700);
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #111;
+$mainFont: 'Open Sans', sans-serif;
+$linkColor: #e60821;
+$linkColorHover: lighten( $linkColor, 20% );
+$headingFont: 'Montserrat', Impact, sans-serif;
+$headingFont: 'Oswald', sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: -0.03em;
+$headingTextTransform: none;
+$selectionBackgroundColor: #e7ad52;
+$mainFontSize: 30px;
+
+// Theme template ------------------------------
+@import "../template/theme";
+
+// ---------------------------------------------
+// Slide number
+.reveal .slide-number {
+    color: $linkColor;
+    position: fixed;
+    display: block;
+    top: 25px;
+    right: 15px;
+    opacity: 0.5;
+    z-index: 31;
+    font-size: 12px;
+    font-weight: bolder;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+// header
+.header {
+    height: 58px;
+    background-color: white;
+}
+
+//logo
+#logo {
+    height: 50px;
+    margin-left: 10px;
+    margin-top: 4px;
+}
+
+// Slide positioning
+.reveal {
+    position: absolute;
+    top: 58px;
+    left: 0;
+}
+
+// Progress bar positioning
+.reveal .progress {
+    top: 58px;
+}
