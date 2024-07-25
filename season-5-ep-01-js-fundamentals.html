@@ -1412,7 +1412,557 @@ const criteria = {
                         </div>
                     </section>
                 </section>
+                <section>
+                    <section id="scope">
+                        <img
+                            src="images/3/js-fundamentals/scope.png"
+                            alt=""
+                            class="medium"
+                        />
+                        <p class="fragment">
+                            The region of the program where a binding between
+                            <br />
+                            a variable and its name is valid
+                        </p>
+                    </section>
 
+                    <section id="lexical-scope">
+                        <img
+                            src="images/3/js-fundamentals/lexical.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>Lexical Scope</h2>
+                        <p class="fragment clearfix">
+                            JavaScript has support for static lexical scope only
+                            <br />
+                            <span class="fragment"
+                                >Variable scope depends on its position on the
+                                source code</span
+                            >
+                        </p>
+                        <pre class="fragment">
+                                        <code class="javascript" data-trim contenteditable>
+// a global definition of animal
+let animal = "Horse, ";
+
+function mammal() {
+    // a local animal variable
+    let animal = "Dog, ";
+}
+
+mammal();
+animal += " a mammal with four legs";
+
+// Dog or Horse?
+console.log(animal);
+                                        </code>
+                                    </pre>
+                        <p class="fragment">
+                            Variables in JavaScript can have either
+                            <u>Global</u> or <u>Local</u> scope
+                        </p>
+                    </section>
+
+                    <section id="local-scope">
+                        <img
+                            src="images/3/js-fundamentals/local-scope.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>Local Scope</h2>
+                        <p class="fragment clearfix">
+                            Local variables exist only within the
+                            <u>function body</u>
+                            <br />
+                            of which they are defined
+                        </p>
+                        <pre class="fragment">
+                                    <code class="javascript" data-trim contenteditable>
+
+function animal() {
+
+    const dog = 'Dob'; // accessible inside animal function only
+
+}
+
+console.log(dog); // bad things will happen
+                                    </code>
+                                </pre>
+                        <p class="fragment">
+                            Notice that using <strong>const</strong> and
+                            <strong>let</strong>
+                            the local scope is bound to the block. That wasn't
+                            the case before ES6 when only
+                            <strong>var</strong> existed. When using
+                            <strong>var</strong> the local scope will be bound
+                            to the <strong>function</strong>.
+                        </p>
+                    </section>
+
+                    <section id="global-scope">
+                        <img
+                            src="images/3/js-fundamentals/global-scope.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>Global Scope</h2>
+                        <p class="fragment">
+                            Global variables live throughout the entire execution
+                            of the runtime <br />and can be accessed and altered
+                            in any scope
+                        </p>
+
+                        <pre class="fragment">
+                                    <code class="javascript" data-trim contenteditable>
+let dog = "Dog"; // global definition of dog
+
+function animals() {
+    console.log(dog); // access to global dog
+    badAnimal();
+    console.log(rabbit); // access to global rabbit
+}
+
+function badAnimal() {
+    rabbit = "rabbit"; // rabbit leaked into the global scope
+}
+
+animals();
+                                    </code>
+                                </pre>
+                        <p>
+                            <small class="fragment"
+                                >Variables defined outside a function or without
+                                the <b>const</b> or <b>let</b> keyword will
+                                <u>be bound to the Global Scope</u>
+                            </small>
+                        </p>
+                        <small class="fragment"
+                            >JS contains a <u>strict mode</u>, causing the
+                            interpreter to check and scream at evil things such
+                            as
+                            <u>implicit globals</u>
+                        </small>
+                    </section>
+
+                    <section id="globals">
+                        <img
+                            src="images/3/js-fundamentals/globals.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>Global Objects</h2>
+                        <p class="fragment clearfix">
+                            Contrary to other programming languages, JavaScript
+                            does not have a standard library, but it does come
+                            with a few built in objects available
+                        </p>
+                        <pre class="fragment">
+                                    <code class="javascript" data-trim contenteditable>
+const date2 = new Date("December 17, 2017 03:24:00");
+const date1 = new Date.now(); // time in milliseconds since the UNIX epoch
+
+const func = new Function("console.log('A/C');");
+func(); // prints A/C in the console
+
+new RegExp("^a.*c$").test("abasdfffc"); // true
+/^a.*c$/.test("abasdfffc"); // equivalent literal notation
+
+Math.ceil(Math.random() * 10); // calculates a random number between 1 and 10
+
+const obj = { a: "1", b: "2" };
+const keys = Object.keys(obj); // [ 'a', 'b' ]
+                                    </code>
+                                </pre>
+                    </section>
+
+                    <section id="hoisting">
+                        <img
+                            src="images/3/js-fundamentals/grua.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>Hoisting</h2>
+                        <p class="fragment clearfix">
+                            Variable declarations are always processed before
+                            any code is executed
+                        </p>
+                        <pre class="fragment">
+                                        <code class="javascript" data-trim contenteditable>
+sayHello();
+
+function sayHello(){
+    console.log('This function declaration was hoisted, so it can be invoked before...');
+}
+                                        </code>
+                        </pre>
+
+                        <p class="fragment">
+                            Notice that variables declared with <b>const</b>,
+                            <b>let</b> and <b>var</b> will be hoisted but not
+                            initialized.
+                        </p>
+                        <pre class="fragment">
+                            <code class="javascript" data-trim contenteditable>
+console.log(age); // undefined
+age = 18;
+var age;
+
+name = "Rui"; // this will result in a ReferenceError
+let name;
+
+hobby = "surf"; // SyntaxError
+const hobby;
+                            </code>
+                        </pre>
+                    </section>
+                </section>
+                <section>
+                    <section id="functions-values">
+                        <h2>Functions as values</h2>
+                        <p class="fragment">
+                            In javascript everything that isn't a primitive is
+                            an object. <br />
+                            <span class="fragment"
+                                >Since you can store an object in a variable
+                                ...</span
+                            >
+                            <span class="fragment"
+                                >and a function is also an object...</span
+                            >
+                        </p>
+                        <pre class="fragment">
+                                    <code class="javascript" data-trim contenteditable>
+// functions can be stored in variables
+const sayHello = function () {
+    console.log('Hello codecadet welcome to my function');
+};
+
+sayHello();
+
+// and also in objects
+const greeter = {
+    talk: sayHello,
+};
+
+greeter.talk();
+                                    </code>
+                                </pre>
+                    </section>
+                    <section id="hof">
+                        <img
+                            src="images/3/js-fundamentals/high-order-funcs.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>High Order Functions</h2>
+                        <p class="fragment">
+                            Functions that operate on other functions, either by
+                            taking them as arguments or by returning them, are
+                            called higher-order functions
+                        </p>
+                        <pre class="fragment">
+                                    <code class="javascript" data-trim contenteditable>
+// build a multiplier by 2 and store it
+// in the variable named double
+const double = multiplier(2);
+
+// use it to double some numbers
+console.log(double(5)); // 10
+console.log(double(3)); // 6
+
+// builds a new multiplier
+function multiplier(operand1) {
+    return function (operand2) {
+        return operand1 * operand2;
+    };
+}
+                                    </code>
+                                </pre>
+                        <p class="fragment">
+                            <b>callback</b> is the name given to these functions
+                            on which higher order functions operate.
+                        </p>
+                    </section>
+
+                    <section id="iife">
+                        <img
+                            src="images/3/js-fundamentals/iife.jpg"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>IIFE</h2>
+                        <p class="fragment clearfix">
+                            A function expression can be invoked immediately,
+                            <br />many times useful to avoid global scope
+                            pollution
+                        </p>
+                        <pre class="fragment">
+                                    <code class="javascript" data-trim contenteditable>
+// this function will execute immediately
+// extra parentheses are required to tell the interpreter
+// this is a function expression and not a declaration
+(function (str) {
+    const name = str;
+})("sting");
+
+console.log(name); // not available
+                                        </code>
+                                    </pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section id="array-structures">
+                        <img
+                            src="images/3/js-fundamentals/stack.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>Data Structures with Arrays</h2>
+                        <small class="fragment"
+                            >Objects and Arrays are so powerful that
+                            <u>a Collections library is rarely needed</u>
+                        </small>
+                        <div class="float-left clearfix" style="width: 48%">
+                            <p class="fragment">
+                                Arrays can be used as a <b>stack</b>...
+                            </p>
+                            <pre class="fragment" style="font-size: 0.9rem">
+                                        <code class="javascript" data-trim contenteditable>
+const stack = [];
+stack.push(1);
+stack.push(2);
+stack.push(3);
+
+stack.pop(); // 3
+stack.pop(); // 2
+stack.pop(); // 1
+stack.pop(); // undefined
+                                        </code>
+                                    </pre>
+                            <small class="fragment">
+                                <u>shift</u> and <u>unshift</u> also work</small
+                            >
+                        </div>
+                        <div class="float-right" style="width: 48%">
+                            <p class="fragment">
+                                ...or as a
+                                <b>queue</b>
+                            </p>
+                            <pre class="fragment" style="font-size: 0.9rem">
+                                        <code class="javascript" data-trim contenteditable>
+const queue = [];
+queue.push(1);
+queue.push(2);
+queue.push(3);
+
+queue.shift(); // 1
+queue.shift(); // 2
+queue.shift(); // 3
+queue.shift(); // undefined
+
+                                        </code>
+                                    </pre>
+                            <small class="fragment">
+                                <u>pop</u> and <u>unshift</u> also work</small
+                            >
+                        </div>
+                        <p class="fragment">
+                            Arrays contain their own <b>sort</b> method, <br />
+                            just provide them with a
+                            <u>compare function!</u>
+                        </p>
+                    </section>
+
+                    <section id="array-operations">
+                        <img
+                            src="images/3/js-fundamentals/array-operations.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>Array Operations</h2>
+                        <div class="float-left clearfix" style="width: 48%">
+                            <p class="fragment">
+                                An array can be populated <br />
+                                with contents from a String...
+                            </p>
+                            <pre class="fragment" style="font-size: 0.9rem">
+                                        <code class="javascript" data-trim contenteditable>
+const sentence = 'JavaScript is a lot of fun!';
+const words = sentence.split(' ');
+
+console.log(words[5]); // 'fun!'
+                                        </code>
+                                    </pre>
+                        </div>
+                        <div class="float-right" style="width: 48%">
+                            <p class="fragment">
+                                ...and a String generated <br />
+                                from the elements of an Array
+                            </p>
+                            <pre class="fragment" style="font-size: 0.9rem">
+                                        <code class="javascript" data-trim contenteditable>
+const numbers = [1, 9, 7, 4];
+const year = numbers.join("");
+
+console.log(year); // '1974'
+                                        </code>
+                                    </pre>
+                        </div>
+                        <div class="float-left clearfix" style="width: 48%">
+                            <p class="fragment">
+                                A shallow copy of an array portion can be
+                                created...
+                            </p>
+                            <pre class="fragment" style="font-size: 0.7rem">
+                                            <code class="javascript" data-trim contenteditable>
+const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+animalsSlice = animals.slice(2, 4);
+
+console.log(animalsSlice); // ['camel', 'duck']
+console.log(animals); // has not been changed
+                                            </code>
+                                        </pre>
+                        </div>
+                        <div class="float-right" style="width: 48%">
+                            <p class="fragment">
+                                ...or elements can be added or removed from it
+                            </p>
+                            <pre class="fragment" style="font-size: 0.8rem">
+                                            <code class="javascript" data-trim contenteditable>
+const myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+myFish.splice(2, 1);
+
+console.log(myFish);
+                                            </code>
+                                        </pre>
+                        </div>
+                    </section>
+
+                    <section id="iteration">
+                        <img
+                            src="images/3/js-fundamentals/array-iterations.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>Array Iteration</h2>
+                        <pre class="fragment">
+                                    <code class="javascript" data-trim contenteditable>
+const words = ['JavaScript', 'Bootcamp', 'Fun', 'Games'];
+
+// you can break early from a for loop
+for (let i = 0; i &lt; words.length; i++) {
+    if (words[i] === 'Fun') {
+        break;
+    }
+    console.log(`${words[i]} has ${words[i].length} letters.`)
+}
+
+// improved readability, but not possible to break early
+words.forEach(word => console.log(`${word} has ${word.length} letters.`));
+
+                                    </code>
+                                </pre>
+                        <p class="fragment">
+                            It is possible to iterate on an object by obtaining
+                            an array with its keys
+                        </p>
+                        <pre class="fragment">
+                                    <code class="javascript" data-trim contenteditable>
+const obj = { a: 1, b: 2, c: 3};
+
+Object.keys(obj).forEach((key) => console.log(`Value of key ${key} is ${obj[key]}`));
+                                    </code>
+                                </pre>
+                    </section>
+
+                    <section id="functional">
+                        <img
+                            src="images/3/js-fundamentals/functional.png"
+                            alt=""
+                            class="logo float-right"
+                        />
+                        <h2>Functional Style with Arrays</h2>
+                        <p class="fragment">
+                            The functional style can make code much cleaner and
+                            easier to maintain, although some performance
+                            penalty is paid
+                        </p>
+                        <pre
+                            class="fragment"
+                            style="font-size: 0.85rem; margin: 0; padding: 0"
+                        >
+                                    <code class="javascript" data-trim contenteditable>
+// apply a filter function to an array, obtaining the older persons
+const people = [
+    { name: "Rui", age: 43 },
+    { name: "Pedro", age: 29 },
+];
+const old = people.filter((person) => person.age > 40);
+
+// apply a transform function to an array, transforming each element in the array into its square root
+const numbers = [1, 4, 9];
+const roots = numbers.map(Math.sqrt); // [1, 2, 3]
+
+// reduce an array to one single value, the total number of characters in the array
+const animals = ["cat", "dog", "fish"];
+const letters = animals.reduce((sum, word) => sum + word.length, 0); // 10
+
+// most array functions can be chained together, this example flattens an array and finds even numbers
+const data = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+];
+const evens = data
+  .reduce((total, value) => total.concat(value), [])
+  .filter((value) => !(value % 2));
+                                    </code>
+                                </pre>
+                        <small class="fragment"
+                            >The original array objects
+                            <u>are not mutated</u> by map, filter or
+                            reduce</small
+                        >
+                    </section>
+                    <section>
+                        <div class="exercise">
+                            <h2>{ Exercise }</h2>
+                            <h3>
+                                Implement your own version of the map, filter
+                                and reduce functions
+                            </h3>
+                            <pre>
+                            <code class="javascript" data-trim contenteditable>
+filter(arr, callback);
+map(arr, callback);
+reduce(arr, callback, initialValue);
+                            </code>
+                        </pre>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="exercise">
+                            <h2>{ Exercise }</h2>
+                            <h3>Holy Trinity (filter-map-reduce)</h3>
+                            <h4>Only using filter-map-reduce:</h4>
+                            <ul>
+                                <li>
+                                    Create a new array with the users that have
+                                    an odd id;
+                                </li>
+                                <li>
+                                    Transform the array into an object where the
+                                    key is the id and the value is the user
+                                </li>
+                                <li>
+                                    Modify the id property of the user to be the index of said user in the array;
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </section>
             </div>
         </div>
 
