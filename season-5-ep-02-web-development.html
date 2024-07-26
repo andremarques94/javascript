@@ -523,7 +523,149 @@ button.textContent = "DO NOT PRESS!!!";
                         </div>
                     </section>
                 </section>
+                <section>
+                    <section id="events">
+                        <h2>Events</h2>
+                        <p class="fragment">
+                            The DOM provides methods for registering and
+                            <br />unregistering event listeners on elements
+                        </p>
+                        <p class="fragment">
+                           Most elements have <b>addEventListener</b> and <b>removeEventListener</b> methods for this purpose.
+                        </p>
+                        <small>
+                            <ul>
+                                <li class="fragment">
+                                    element.addEventListener(type, callback,
+                                    options) - Register an event handler of a specific event type
+                                </li>
+                                <li class="fragment">
+                                    element.removeEventListener(type, listener,
+                                    options) - Removes an event handler of a specific event type
+                                </li>
+                            </ul>
+                        </small>
+                        <pre class="fragment">
+                        <code class="javascript" data-trim contenteditable>
+const helloWorldFn = function () {
+  console.log("hello world!");
+};
 
+const btn = document.getElementById("hello_world_btn");
+btn.addEventListener("click", helloWorldFn, false);
+                        </code>
+                    </pre>
+                    <small class="fragment">The first argument (type) should be a string that defines the event we're listening to (e.g: click, keydown, mouseover, etc).</small>
+                    </section>
+
+                    <section>
+                        <h2>Event Default Action</h2>
+                        <p class="fragment">
+                            Many events have a default action
+                        </p>
+                        <small>
+                            <p class="fragment">
+                                Clicking on a hyperlink will make the browser
+                                navigate to the target page by default
+                            </p>
+                            <p class="fragment">
+                                Clicking on a form submission button will cause
+                                the browser to submit the form to the server by
+                                default
+                            </p>
+                        </small>
+                        <p class="fragment">
+                            If there is an event listener attached to an
+                            element, the event listener will fire first before
+                            the default browser action is run.
+                        </p>
+                        <pre class="fragment">
+                        <code class="javascript" data-trim contenteditable>
+const preventDefault = function (event) {
+  event.preventDefault();
+};
+
+const link = document.getElementById("disabled_link");
+link.addEventListener("click", preventDefaultFn, false);
+                        </code>
+                    </pre>
+                        <p class="fragment">
+                            The event listener <u>can choose</u> to prevent the
+                            action from being run
+                        </p>
+                    </section>
+
+                    <section id="bubble">
+                        <h2>Event Propagation</h2>
+                        <p class="fragment">
+                            When an event is fired, the element's event handlers are first called.
+                            <br />
+                            <span class="fragment"
+                                >The element's parent's event handlers are called next.
+                                <br />
+                                <span class="fragment"
+                                    >That element’s parent’s event handlers are
+                                    also called,</span
+                                >
+                                <span class="fragment">
+                                    and so on, until the dom root element (
+                                    <b>document</b>) is reached</span
+                                >
+                            </span>
+                        </p>
+                        <img
+                            src="images/3/frontend-web/event-propagation.png"
+                            class="fragment"
+                            style="max-height: 200px"
+                        />
+
+                            <p class="fragment">
+                                <small>
+                                This behaviour is called
+                                <u>Event Bubbling</u>
+                                </small>
+                            </p>
+
+
+                    </section>
+                    <section id="event-bubbling-handson">
+                        <div class="exercise">
+                            <h3>{ Hands-On }</h3>
+                            <h3>Event Bubbling</h3>
+                        </div>
+                    </section>
+                    <section id="event-object">
+                        <h2>Event Object</h2>
+                        <p class="fragment">
+                            Event handlers are called with one argument that contains information about the fired event.
+                        </p>
+                        <p class="fragment">It may have different properties and methods depending on the event type.</p>
+                        <pre class="fragment">
+                            <code class="javascript" data-trim contenteditable>
+function printKeyPress(event) {
+    console.log("---KEYPRESS---");
+    console.log(event);
+    console.log("--------------");
+}
+
+document.addEventListener("keypress", printKeyPress);
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <div class="exercise">
+                            <h3>{ Exercise }</h3>
+                            <h3>Random Color Generator</h3>
+                            <h4>button press version</h4>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="exercise">
+                            <h3>{ Exercise }</h3>
+                            <h3>ROCKXPAPERXSCISORS</h3>
+                            <img style="max-width: 70%;" src="images/3/web-development/rockxpaperxscisors.png"></img>
+                        </div>
+                    </section>
                 </section>
             </div>
         </div>
