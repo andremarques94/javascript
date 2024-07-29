@@ -1,0 +1,1286 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+
+        <title>Code for All_</title>
+
+        <meta
+            name="description"
+            content="Transforma a tua vida com os cursos técnicos do Code for All_, antiga Academia de Código. Da programação à cibersegurança, oferecemos cursos para todos os níveis. Junta-te aos nossos ex-alunos e começa a programar o teu caminho para o sucesso"
+        />
+        <meta name="keyword" content="Code,for,All, portugal" />
+        <meta name="author" content="Code For All_" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
+
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"
+        />
+
+        <link rel="stylesheet" href="css/reveal.css" />
+        <link rel="stylesheet" href="css/theme/ac.css" id="theme" />
+
+        <!-- Use for presentation specific styling -->
+        <link rel="stylesheet" href="css/presentation.css" />
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css" />
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = window.location.search.match(/print-pdf/gi)
+                ? "css/print/pdf.css"
+                : "css/print/paper.css";
+            document.getElementsByTagName("head")[0].appendChild(link);
+        </script>
+
+        <!--[if lt IE 9]>
+            <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="header"><img id="logo" src="logo.png" /></div>
+
+        <div class="reveal">
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <section>
+                        <img src="images/3/deep-dive/deep-dive.jpg" />
+                        <h1>JavaScript Deep Dive</h1>
+                    </section>
+
+                    <section id="engines">
+                        <img
+                            src="images/3/deep-dive/v8-logo.png"
+                            class="float-right logo"
+                            alt=""
+                        />
+                        <h2>JavaScript Engines</h2>
+                        <p class="fragment">
+                            Runtime engines consist of two main components:
+                        </p>
+                        <div>
+                            <img
+                                src="images/3/deep-dive/engine.png"
+                                class="fragment medium"
+                            />
+                        </div>
+                        <small>
+                            <ul>
+                                <li class="fragment">
+                                    <u>Heap</u> is a large region of memory
+                                    where objects are allocated
+                                </li>
+                                <li class="fragment">
+                                    <u>Call Stack</u> forms a stack of frames as
+                                    functions are invoked
+                                </li>
+                            </ul>
+                        </small>
+                    </section>
+
+                    <section id="call-stack">
+                        <img
+                            src="images/3/deep-dive/stack-logo.png"
+                            class="float-right logo"
+                            alt=""
+                        />
+                        <h2>Call Stack</h2>
+                        <p class="fragment clearfix">
+                            All JavaScript code runs within the scope of <br />
+                            what is known as an <u>Execution Context</u>
+                        </p>
+                        <div
+                            style="
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: space-between;
+                                align-items: center;
+                            "
+                        >
+                            <pre class="fragment">
+                                <code class="javascript" data-trim contenteditable>
+const FACTOR_OF_THREE = 3;
+
+function multiply(a,b){
+    return a * b;
+}
+
+function triple(a){
+    return multiply(a, FACTOR_OF_THREE);
+}
+
+triple(10);
+                                </code>
+                            </pre>
+                            <img
+                                class="fragment"
+                                src="images/3/deep-dive/call-stack.png"
+                            />
+                        </div>
+                        <small>
+                            <ul>
+                                <li class="fragment">
+                                    A <u>global</u> execution context is created
+                                    initially and pushed into the call stack
+                                </li>
+                                <li class="fragment">
+                                    Every time a function is invoked a new
+                                    execution context is
+                                    <u>created and pushed</u> into the call
+                                    stack
+                                </li>
+                                <li class="fragment">
+                                    Every time a function returns its execution
+                                    context is
+                                    <u>popped</u> from the call stack
+                                </li>
+                            </ul>
+                        </small>
+                    </section>
+
+                    <section id="stack-overflow">
+                        <img
+                            src="images/3/deep-dive/stack-overflow-logo.png"
+                            class="float-right logo"
+                            alt=""
+                        />
+                        <h2>Stack Overflow</h2>
+                        <p class="fragment clearfix">
+                            If the maximum call stack size is exceeded <br />the
+                            program terminates with a <i>RangeError</i>
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript" data-trim contenteditable>
+function foo() {
+    foo(); // call foo recursively forever
+}
+
+foo();
+						</code>
+					</pre>
+                        <img
+                            src="images/3/deep-dive/stack-overflow.png"
+                            class="small fragment"
+                            style="position: relative; bottom: 40px"
+                        />
+                    </section>
+
+                    <section id="code-execution">
+                        <img
+                            src="images/3/deep-dive/launch.png"
+                            class="float-right logo"
+                        />
+                        <h2>Code Execution</h2>
+                        <p class="fragment clearfix">
+                            While executing code, the runtime engine goes
+                            through two different phases multiple times, until
+                            there is no more code to run
+                        </p>
+                        <ol>
+                            <li class="fragment">
+                                <b>Creation Phase</b> - A new
+                                <u>Execution Context</u> gets created
+                            </li>
+                            <li class="fragment">
+                                <b>Execution Phase</b> - During this phase, the
+                                following actions occur:
+                                <ul>
+                                    <li class="fragment">
+                                        Created EC is <u>stored</u> in the call
+                                        stack
+                                    </li>
+                                    <li class="fragment">
+                                        Code from the EC is <u>executed</u>
+                                    </li>
+                                    <li class="fragment">
+                                        EC is <u>removed</u> from the call stack
+                                    </li>
+                                    <li class="fragment">
+                                        Code from the <u>previous</u> EC
+                                        continues to execute
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </section>
+
+                    <section id="execution-context">
+                        <img
+                            src="images/3/deep-dive/context.png"
+                            class="float-right logo"
+                        />
+                        <h2>Execution Context</h2>
+                        <p class="fragment clearfix">
+                            It is possible to conceptually represent each
+                            execution context (EC)
+                            <br />
+                            as an object with three properties
+                        </p>
+                        <img
+                            src="images/3/deep-dive/ec-details.png"
+                            class="small float-right"
+                        />
+                        <ul class="float-left" style="width: 50%">
+                            <li class="fragment">
+                                <u>Activation Object</u> stores all variables
+                                defined within the current EC
+                            </li>
+                            <li class="fragment">
+                                <u>Scope Chain</u> gives access to the
+                                Activation Object for all parent lexical scopes
+                            </li>
+                            <li class="fragment">
+                                <u>This Binding</u> is a reference to the object
+                                that <u>owns</u> the currently executing code
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section id="activation-object">
+                        <img
+                            src="images/3/deep-dive/plug.png"
+                            class="float-right logo"
+                        />
+                        <h2>Activation Object</h2>
+                        <p class="fragment clearfix">
+                            When a function is <u>activated (called)</u>, the
+                            interpreter scans the function for arguments and
+                            local variables or local function declarations
+                        </p>
+                        <div class="float-left" style="width: 70%">
+                            <pre class="fragment" style="margin: 0">
+							<code class="javascript" data-trim contenteditable>
+function foo(x, y) {
+    const z = 30;
+
+    function bar() {}
+}
+
+foo(10, 20);
+&nbsp;
+							</code>
+						</pre>
+                        </div>
+                        <img
+                            src="images/3/deep-dive/activation-object.png"
+                            class="fragment float-right"
+                        />
+                        <p class="fragment clearfix">
+                            The result of this scan becomes the Activation
+                            object <br />
+                            and is the reason why <u>hoisting</u> occurs
+                        </p>
+                    </section>
+
+                    <section id="scope-chain">
+                        <img
+                            src="images/3/deep-dive/chain.png"
+                            class="float-right logo"
+                        />
+                        <h2>Scope Chain</h2>
+                        <p class="fragment clearfix">
+                            Container of Activation Objects for the executing
+                            function lexical scope
+                        </p>
+                        <div class="float-left" style="width: 60%">
+                            <br />
+                            <pre class="fragment" style="margin: 0">
+							<code class="javascript" data-trim contenteditable>
+let oranges = 10;
+
+function printOranges() {
+  console.log(oranges);
+}
+
+function printMoreOranges() {
+  let oranges = 11;
+  printOranges();
+}
+
+printMoreOranges(); // what is the output?
+							</code>
+						</pre>
+                        </div>
+                        <img
+                            src="images/3/deep-dive/scope-chain.png"
+                            class="fragment float-right"
+                            style="width: 30%"
+                        />
+                    </section>
+
+                    <section id="this">
+                        <img
+                            src="images/3/deep-dive/binding.png"
+                            class="logo float-right"
+                        />
+                        <h2><b>this</b> Argument Binding</h2>
+                        <p class="fragment">
+                            The implicit <u>this</u> argument is available
+                            inside functions
+                        </p>
+                        <div
+                            style="
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                            "
+                        >
+                            <pre
+                                class="fragment float-left"
+                                style="margin: 0; width: 45%"
+                            >
+						<code class="javascript" data-trim contenteditable>
+function getThis() {
+  console.log(this);
+}
+
+const getThisArrow = () => {
+  console.log(this);
+};
+
+const obj1 = {
+  name: "obj1",
+  getThis,
+  getThisArrow,
+};
+
+const obj2 = {
+  name: "obj2",
+};
+
+						</code>
+					</pre>
+                            <pre
+                                class="fragment float-right"
+                                style="margin: 0; width: 45%"
+                            >
+					   <code class="javascript" data-trim contenteditable>
+getThis(); // "window"
+obj1.getThis(); // "obj1"
+getThis.call(obj2); // "obj2"
+new getThis(); // "{}"
+
+//Arrow functions are special
+getThisArrow(); //"window"
+obj1.getThisArrow(); // "window"
+					   </code>
+					</pre>
+                        </div>
+                        <small class="fragment"
+                            >The value of <b>this</b> is
+                            <u>dynamically bound</u> depending on how the
+                            function was called!</small
+                        >
+                        <aside class="notes">
+                            <ul>
+                                <li>
+                                    image function(x, y, z) is actually
+                                    function(this, x, y, z) hence implicit
+                                    argument
+                                </li>
+                            </ul>
+                        </aside>
+                    </section>
+
+                    <section>
+                        <img
+                            src="images/3/deep-dive/pitfalls.png"
+                            class="logo float-right"
+                        />
+                        <h2><b>this</b> Pitfalls</h2>
+                        <p class="fragment clearfix">
+                            The implicit <b>this</b> binding can produce strange
+                            results
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript"  data-trim contenteditable>
+//get a collection of all button elements on the page
+const buttons = document.querySelectorAll("button");
+
+for (var i = 0; i < buttons.length; i++) {
+  buttons[i].onclick = function () {
+    // log the button pressed to the console
+    console.log(this.innerText + " was pressed!");
+
+    // make sure every button on page is only pressed once
+    disableButton();
+  };
+}
+
+function disableButton() {
+  this.disabled = true;
+}
+
+						</code>
+					</pre>
+                        <p class="fragment">How do you fix this?</p>
+                    </section>
+
+                    <section>
+                        <img
+                            src="images/3/deep-dive/brick-cube.png"
+                            class="logo float-right"
+                        />
+                        <h2>Altering <b>this</b> binding</h2>
+                        <p class="fragment clearfix">
+                            The methods <u>bind</u>, <u>call</u> and
+                            <u>apply</u> allow explicit control <br />
+                            over the <b>this</b> argument binding
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript" data-trim contenteditable>
+function compose(prefix, suffix) {
+  console.log(prefix + this + suffix);
+}
+
+// create a new function with a statically set this argument
+const compose2 = compose.bind("Rui");
+compose2("Hello ", "!");
+
+// call an existing function with an explicitly provided this argument
+compose.call("Rui", "Hello ", "!"); // passing arguments as usual
+compose.apply("Rui", ["Hello ", "!"]); // passing arguments as an array
+						</code>
+					</pre>
+                    </section>
+
+                    <section id="call">
+                        <img
+                            src="images/3/deep-dive/smart.png"
+                            class="logo float-right"
+                        />
+                        <h2>Borrowing Methods</h2>
+                        <p class="fragment clearfix">
+                            JavaScript makes it possible to use one object's
+                            method <br />
+                            on a totally different object
+                        </p>
+                        <small class="fragment"
+                            >The arguments object
+                            <u>looks like an array</u> with numerical indexed
+                            keys, but lacks all of the array methods</small
+                        >
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript" data-trim contenteditable>
+// this blows up, the arguments object lacks the native array methods
+function upperCaseArguments() {
+
+  return arguments.map(arg => arg.toUpperCase());
+}
+
+// this is really smart :)
+function upperCaseArguments() {
+
+    // invoke the array slice method on top of the arguments object
+    const argsAsArray = [].slice.call(arguments);
+
+    return argsAsArray.map(arg => arg.toUpperCase());
+}
+						</code>
+					</pre>
+                        <small class="fragment">
+                            Back in the day, this was a common pattern to
+                            convert the arguments object to an array before the
+                            <b>spread</b> operator was introduced
+                        </small>
+                    </section>
+                    <section id="arrow">
+                        <h2>This and arrow functions</h2>
+                        <p class="fragment">
+                            Arrow functions do not have their own <b>this</b>
+                            binding they inherit the this value from the
+                            enclosing lexical context
+                        </p>
+                        <pre class="fragment">
+                        <code class="javascript" data-trim contenteditable>
+const contextObject = {
+    name: "context-object",
+    action: function() {
+        console.log("enclosing function", this);
+
+        const anonTest = function() {
+            console.log("anonymous function", this);
+        };
+
+        const arrowTest = () => {
+            console.log("arrow function", this);
+        };
+
+        anonTest();
+        arrowTest();
+    },
+};
+
+contextObject.action(); //contextObject, Window, contextObject
+                        </code>
+                    </pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section id="closures">
+                        <h1 class="clearfix">
+                            Closures
+                            <img
+                                src="images/3/deep-dive/closures-logo.png"
+                                style="position: relative; bottom: 30px"
+                                class="logo"
+                            />
+                        </h1>
+                    </section>
+
+                    <section>
+                        <img
+                            src="images/3/deep-dive/closures-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Closures</h2>
+                        <p class="fragment">
+                            Accessing variables up the scope chain will make the
+                            interpreter preserve the corresponding EC and create
+                            what is called a <u>closure</u>
+                        </p>
+                        <pre class="fragment">
+						<code class="javascript" data-trim contenteditable>
+const twice = multiplier(2);
+console.log(twice(5));
+
+function multiplier(factor) {
+  return function (number) {
+    return number * factor;
+  };
+}
+						</code>
+					</pre>
+                        <p class="fragment">
+                            The AO created upon the execution of multiplier
+                            <u>is preserved and available</u> during the
+                            execution of twice
+                        </p>
+                        <small class="fragment">
+                            Closures seem complex at first, but they are a
+                            powerful tool with many practical use cases,
+                            allowing for creative, expressive and concise code
+                        </small>
+                    </section>
+
+                    <section id="module">
+                        <img
+                            src="images/3/deep-dive/module.png"
+                            class="logo float-right"
+                        />
+                        <h2>Module Pattern</h2>
+                        <p class="fragment">
+                            Closures can be utilized to
+                            <u>emulate the concept of classes</u> <br />with
+                            public and private members
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript"  style="line-height: 1.1em;" data-trim contenteditable>
+const secretFactory = function (secret, key) {
+  let tries = 3;
+
+  return {
+    get: function (secretKey) {
+      tries -= 1;
+      return tries > 0 && key === secretKey ? secret : null;
+    },
+  };
+};
+
+const secret1 = secretFactory("coca-cola recipe", 1234);
+const secret2 = secretFactory("a message", "password");
+
+console.log(secret1.get("1234")); // null
+console.log(secret1.get()); // null
+console.log(secret1.get("password")); // null
+console.log(secret1.get(1234)); // null, secret has been destroyed
+
+console.log(secret2.get("password")); // a message
+						</code>
+					</pre>
+                    </section>
+
+                    <section>
+                        <img
+                            src="images/3/deep-dive/pitfalls.png"
+                            class="logo float-right"
+                        />
+                        <h2>Closure Pitfalls</h2>
+                        <p class="fragment clearfix">
+                            Closures together with lexical scope can produce
+                            strange results <br />
+                            <span class="fragment"
+                                >Remember the <b>var</b> keyword?</span
+                            >
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript"  style="line-height: 1.1em;" data-trim contenteditable>
+var funcs = [];
+
+for (var i = 0; i &lt; 3; i++) {
+
+    // push will create new execution context with reference to i
+    funcs.push(function() {
+        console.log(i);
+    });
+}
+
+funcs[0](); // 3
+funcs[1](); // 3
+funcs[2](); // 3
+						</code>
+					</pre>
+                        <p class="fragment">How do you fix this?</p>
+                        <aside class="notes">
+                            <ul>
+                                <li>
+                                    We need to create a new execution context
+                                    creation to close over each value of i:
+                                </li>
+                                <li>
+                                    <pre>
+funcs.push(
+    (function(i) {
+        return function() {
+            console.log(i);
+        };
+    })(i)
+);
+                                    </pre>
+                                </li>
+                            </ul>
+                        </aside>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <img
+                            src="images/3/deep-dive/inheritance-logo.png"
+                            class="logo float-right"
+                        />
+                        <br />
+                        <h1 class="clearfix">
+                            Object Creation <br />and <br />Inheritance
+                        </h1>
+                    </section>
+
+                    <section id="inheritance-problem">
+                        <img
+                            src="images/3/deep-dive/classical-inheritance.png"
+                            class="logo float-right"
+                        />
+                        <h2 class="clearfix">The problem</h2>
+                        <p class="fragment">
+                            In some other languages we have a concept of
+                            <b>classes</b>, which are blueprints for objects.
+                        </p>
+                        <p class="fragment">
+                            In JavaScript we didn't have this concept and had to
+                            find a way to emulate it...
+                        </p>
+                    </section>
+                    <section id="generator-function">
+                        <h2>We don't have classes...</h2>
+                        <h3 class="fragment">but we have functions!</h3>
+                        <pre class="fragment">
+                            <code class="javascript" data-trim contenteditable>
+function Person(name, age, favoriteFood) {
+  return {
+    name,
+    age,
+    favoriteFood,
+  };
+}
+
+const john = Person("John", 25, "Pizza");
+const nozk = Person("Nozk", 25, "Ramen");
+nozk.toString(); // [object Object]
+                            </code>
+                        </pre>
+                        <p class="fragment">
+                            this is still not a class, it's just a function that
+                            returns an object. We can't create instances of it,
+                            we can't extend it, we can't do anything that we can
+                            do with classes in other languages...
+                        </p>
+                        <small class="fragment">... or can we?</small>
+                        <aside class="notes">
+                            Where does this `toString` method come from? It's
+                            not in the `Person` object, but it's there when we
+                            call `nozk.toString()`. This is because every object
+                            in JavaScript has a prototype, and the `toString`
+                            method is in the `Object` prototype. DON'T GO TOO
+                            DEEP INTO THIS, WE'LL TALK ABOUT PROTOTYPES LATER.
+                        </aside>
+                    </section>
+                    <section id="prototype">
+                        <h2>Prototype</h2>
+                        <p class="fragment">
+                            Almost every object in JavaScript has a prototype.
+                        </p>
+
+                        <div class="fragment">
+                            <pre>
+                                <code class="javascript" data-trim contenteditable>
+const emptyObject = {}; // Object.create(Object.prototype);
+
+// toString doesn't exist in emptyObject, but it exists in its prototype
+emptyObject.toString();
+
+// emptyObject prototype points to the Object prototype
+console.log(emptyObject.getPrototypeOf());
+                                </code>
+                            </pre>
+                            <p>
+                                When an object literal is created, it's
+                                prototype is set to the
+                                <em>Object</em> prototype.
+                            </p>
+                        </div>
+
+                        <aside class="notes">
+                            <em>Object</em> is a constructor function,
+                            <b>and functions are objects in JavaScript.</b>
+                            Don't tell them the constructor function part yet,
+                            <b>but tell them that functions are objects</b>.
+                            This is really important or the next slides won't
+                            make any sense.
+                        </aside>
+                    </section>
+                    <section id="template">
+                        <h2>Creating the template</h2>
+                        <div>
+                            <div class="fragment" style="margin: 0px">
+                                <p>
+                                    So the idea is to create an object, with a
+                                    given structure and behavior
+                                </p>
+                                <pre>
+                            <code class="javascript" data-trim contenteditable>
+const john = {};
+Person.call(john, "John", 25, "Pizza");
+john.tellInfo(); // My name is John, I'm 25 years old and I love Pizza
+                            </code>
+                        </pre>
+                            </div>
+
+                            <pre class="fragment" style="font-size: 0.8rem">
+                            <code class="javascript" data-trim contenteditable>
+//Functions are also objects...
+function Person(name, age, favoriteFood) {
+  this.name = name;
+  this.age = age;
+  this.favoriteFood = favoriteFood;
+}
+
+// ... and they have a prototype for the shared behavior between instances
+Person.prototype.tellInfo = function () {
+  return `My name is ${this.name}, I'm ${this.age} years old and I love ${this.favoriteFood}`;
+};
+
+const john = Object.create(Person.prototype);
+Person.call(john, "John", 25, "Pizza");
+john.tellInfo(); // My name is John, I'm 25 years old and I love Pizza
+                            </code>
+                        </pre>
+
+                            <p class="fragment">
+                                the instance prototype points to the
+                                <em>Person</em>
+                                prototype
+                            </p>
+                        </div>
+                        <aside class="notes">
+                            We don't add the `tellInfo` method to the `john`
+                            object, we add it to the `Person` prototype. If not
+                            it would create copies of tellInfo for each
+                            instance. We want to share the behavior between
+                            instances, not duplicate it.
+                        </aside>
+                    </section>
+                    <section id="constructors">
+                        <h2>Constructor functions</h2>
+                        <p class="fragment">
+                            What we just created is a constructor function. Now
+                            this looks a lot more like a class, right?
+                        </p>
+
+                        <pre class="fragment">
+                            <code class="javascript" data-trim contenteditable>
+function Person(name, age, favoriteFood) {
+  this.name = name;
+  this.age = age;
+  this.favoriteFood = favoriteFood;
+}
+
+Person.prototype.tellInfo = function () {
+  return `My name is ${this.name}, I'm ${this.age} years old and I love ${this.favoriteFood}`;
+};
+
+const john = new Person("John", 25, "Pizza");
+                            </code>
+                        </pre>
+                        <p class="fragment">
+                            A constructor function is used to create multiple
+                            instances of the same type of objects, all
+                            delegating to a common prototype.
+                        </p>
+                        <small class="fragment">
+                            They should only be used with the new operator and
+                            should be capitalized for readability<br />
+                            <span style="color: red"
+                                ><b class="fragment">
+                                    They cannot be arrow functions!</b
+                                ></span
+                            >
+                        </small>
+                    </section>
+                    <section id="classes">
+                        <h2>ES6 Classes</h2>
+                        <p class="fragment">
+                            ES6 introduced syntactic sugar to abstract us from
+                            prototypes.
+                        </p>
+                        <pre class="fragment">
+                            <code class="javascript" data-trim contenteditable>
+class Person {
+  constructor(name, age, favoriteFood) {
+    this.name = name;
+    this.age = age;
+    this.favoriteFood = favoriteFood;
+  }
+
+  tellInfo() {
+    return `My name is ${this.name}, I'm ${this.age} years old and I love ${this.favoriteFood}`;
+  }
+}
+
+const john = new Person("John", 25, "Pizza");
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Next and what about inheritance?
+                        </aside>
+                    </section>
+                    <section id="inheritance">
+                        <h2>Inheritance</h2>
+                        <p>
+                            The <b>extends</b> keyword is used to create a
+                            <b>is a</b> relationship between two classes.
+                        </p>
+                        <pre class="fragment">
+                            <code class="javascript" data-trim contenteditable>
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    return `${this.name} makes a noise`;
+  }
+}
+
+class Person extends Animal {
+  constructor(name, age, favoriteFood) {
+    super(name);
+    this.age = age;
+    this.favoriteFood = favoriteFood;
+  }
+
+  tellInfo() {
+    return `My name is ${this.name}, I'm ${this.age} years old and I love ${this.favoriteFood}`;
+  }
+}
+
+const nozk = new Person("Nozk", 30, "Ramen");
+nozk.speak(); // Nozk makes a noise
+nozk.tellInfo(); // My name is Nozk, I'm 30 years old and I love Ramen
+                            </code>
+                        </pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section id="error-handling">
+                        <h1 class="clearfix">
+                            Error Handling
+                            <img
+                                src="images/3/deep-dive/error-handling.png"
+                                style="position: relative; bottom: 30px"
+                                class="logo"
+                            />
+                        </h1>
+                    </section>
+
+                    <section id="errors">
+                        <img
+                            src="images/3/deep-dive/errors.png"
+                            class="logo float-right"
+                        />
+                        <h2>Errors</h2>
+                        <p class="class clearfix">
+                            When the JS engine encounters an erroneous
+                            situation, it's normal flow is interrupted by doing
+                            what is known as <u>throwing an error</u>:
+                        </p>
+                        <small>
+                            <ul>
+                                <li class="fragment">
+                                    <u>Early Errors</u> - thrown during parsing,
+                                    can not be handled
+                                </li>
+                                <li class="fragment">
+                                    <u>Runtime Errors</u> - thrown during
+                                    execution, can be handled by
+                                    <b>catching the error</b>
+                                </li>
+                            </ul>
+                        </small>
+                        <pre class="fragment">
+							<code class="javascript" style="font-size: 0.9em; line-height: 0.9em;" data-trim contenteditable>
+const x = 2; // this line will never be executed
+console.log(x);
+
+// this line will trigger an early syntax error
+console.log(x + 1;
+							</code>
+						</pre>
+                        <small class="fragment"
+                            >Syntax errors normally occur early, but sometimes
+                            they can occur at runtime as well</small
+                        >
+                        <pre class="fragment">
+							<code class="javascript" style="font-size: 0.9em; line-height: 0.9em;" data-trim contenteditable>
+const x = 2;
+console.log(x); // prints the value 2
+
+// this line will trigger a runtime syntax error
+const y = new Function("console.log(x + 1;");
+							</code>
+						</pre>
+                    </section>
+
+                    <section id="error-handling">
+                        <img
+                            src="images/3/deep-dive/error-block-handling.png"
+                            class="logo float-right"
+                        />
+                        <h2>Error Handling</h2>
+                        <p class="fragment clearfix">
+                            It is possible to mark a block of statements in the
+                            code and
+                            <br />specify a response if an error is thrown at
+                            runtime
+                        </p>
+                        <pre class="fragment">
+						<code class="javascript" style="font-size: 0.9em; line-height: 0.9em;" data-trim contenteditable>
+try {
+
+  const myObject = {};
+  myObject.method(); // throws an error
+
+} catch (err) {
+
+  console.log("An error has occurred: ", err);
+
+} finally {
+
+  console.log("Error has been handled!");
+
+}
+						</code>
+					</pre>
+                    </section>
+
+                    <section id="error">
+                        <img
+                            src="images/3/deep-dive/error-objects.png"
+                            class="logo float-right"
+                        />
+                        <h2>Error Objects</h2>
+                        <p class="fragment clearfix">
+                            JavaScript error handling is typically performed
+                            through the
+                            <br />generic <b>Error</b> constructor or one of
+                            it's subconstructors
+                        </p>
+                        <pre class="fragment">
+						<code class="javascript" style="font-size: 0.9em; line-height: 0.9em;" data-trim contenteditable>
+try {
+
+  const myObject = {};
+  myObject.method(); // throws an error
+
+} catch (err) {
+
+  console.log(typeof err); // object
+  console.log(err instanceof Error); // true
+  console.log(err instanceof TypeError); // true
+
+  // print a human readable description of the error
+  console.log(err.name + ": " + err.message); // TypeError: myObject.method is not a function
+
+  if (debug) {
+    // dump the full stack trace to the console
+    console.log(err.stack);
+  }
+}
+						</code>
+					</pre>
+                    </section>
+
+                    <section id="throwing">
+                        <img
+                            src="images/3/deep-dive/throw.png"
+                            class="logo float-right"
+                        />
+                        <h2>Error Throwing</h2>
+                        <p class="fragment clearfix">
+                            An error can be thrown to signal a <br />runtime
+                            error in the execution of the code
+                        </p>
+                        <p class="fragment">
+                            The execution of the current function will stop
+                            <br />and control passed to the first
+                            <i>catch</i> clause in the call stack
+                        </p>
+                        <pre class="fragment">
+						<code class="javascript" style="font-size: 0.9em; line-height: 0.9em;" data-trim contenteditable>
+function doSomethingRisky() {
+
+  throw new Error("something went wrong...");
+}
+
+try {
+
+  doSomethingRisky();
+
+} catch (err) {
+
+  console.log(err.name); // Error
+  console.log(err.message); // something went wrong
+}
+						</code>
+					</pre>
+                        <p class="fragment">
+                            If no <i>catch</i> clause exists, the program will
+                            be terminated
+                        </p>
+                        <small class="fragment"
+                            >You can throw anything, but it is a good ideia to
+                            throw Error objects only</small
+                        >
+                    </section>
+
+                    <section>
+                        <img
+                            src="images/3/deep-dive/custom-errors.png"
+                            class="logo float-right"
+                        />
+                        <h2>Custom Errors</h2>
+                        <p class="fragment clearfix">
+                            You can also extend from Error to create custom
+                            error types
+                        </p>
+                        <pre class="fragment">
+						<code class="javascript" style="font-size: 0.9em; line-height: 0.9em;" data-trim contenteditable>
+class CustomError extends Error {
+
+  constructor(message, module) {
+
+    super(message);
+    this.name = "CustomError";
+    this.module = module;
+  }
+}
+
+try {
+
+  throw new CustomError("wrong credentials", "authentication");
+
+} catch (e) {
+
+  console.log(e.name + ": " + e.module + " - " + e.message);
+  console.log(e.stack);
+}
+						</code>
+					</pre>
+                    </section>
+                </section>
+
+                <section>
+                    <div class="exercise">
+                        <h2>{ Exercise }</h2>
+                        <h3>Create a Generic Service module</h3>
+                        <p>
+                            The Service module should return the following API:
+                        </p>
+                        <ul>
+                            <li>name</li>
+                            <li>add</li>
+                            <li>remove</li>
+                            <li>destroy</li>
+                            <li>update</li>
+                            <li>get</li>
+                            <li>list</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            /*jshint -W117 */
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                keyboard: true,
+                center: true,
+                help: true,
+                progress: true,
+                slideNumber: true,
+                history: false,
+                width: 1024,
+                overview: true,
+
+                controls: false,
+                keyboard: true,
+                center: true,
+                help: true,
+                progress: true,
+                slideNumber: true,
+                history: false,
+                width: 1024,
+                overview: true,
+                menu: {
+                    // Add slide numbers to the titles in the slide list.
+                    // Use 'true' or format string (same as reveal.js slide numbers)
+                    numbers: true,
+
+                    // Hide slides from the menu that do not have a title.
+                    // Set to 'true' to only list slides with titles.
+                    hideMissingTitles: true,
+
+                    // Add markers to the slide titles to indicate the
+                    // progress through the presentation
+                    markers: false,
+
+                    // Specify custom panels to be included in the menu, by
+                    // providing an array of objects with 'title', 'icon'
+                    // properties, and either a 'src' or 'content' property.
+                    custom: false,
+
+                    // Specifies the themes that will be available in the themes
+                    // menu panel. Set to 'false' to hide themes panel.
+                    themes: false,
+
+                    // Specifies if the transitions menu panel will be shown.
+                    transitions: true,
+
+                    // Adds a menu button to the slides to open the menu panel.
+                    // Set to 'false' to hide the button.
+                    openButton: true,
+
+                    // If 'true' allows the slide number in the presentation to
+                    // open the menu panel. The reveal.js slideNumber option must
+                    // be displayed for this to take effect
+                    openSlideNumber: false,
+
+                    // If 'true' allows the slide number in the presentation to
+                    // open the menu panel. The reveal.js slideNumber option must
+                    // be displayed for this to take effect
+                    openSlideNumber: false,
+
+                    // If true allows the user to open and navigate the menu using
+                    // the keyboard. Standard keyboard interaction with reveal
+                    // will be disabled while the menu is open.
+                    keyboard: true,
+                },
+
+                // Specifies episode for limits-app
+                episode: 32,
+                // Optional reveal.js plugins
+                dependencies: [
+                    {
+                        src: "lib/js/classList.js",
+                        condition: function () {
+                            return !document.body.classList;
+                        },
+                    },
+                    {
+                        src: "plugin/markdown/marked.js",
+                        condition: function () {
+                            return !!document.querySelector("[data-markdown]");
+                        },
+                    },
+                    {
+                        src: "plugin/markdown/markdown.js",
+                        condition: function () {
+                            return !!document.querySelector("[data-markdown]");
+                        },
+                    },
+                    {
+                        src: "plugin/highlight/highlight.js",
+                        async: true,
+                        condition: function () {
+                            return !!document.querySelector("pre code");
+                        },
+                        callback: function () {
+                            hljs.initHighlightingOnLoad();
+                        },
+                    },
+                    {
+                        src: "plugin/zoom-js/zoom.js",
+                        async: true,
+                    },
+                    {
+                        src: "plugin/notes/notes.js",
+                        async: true,
+                    },
+                    {
+                        src: "plugin/bootcamp/config.js",
+                        async: false,
+                    },
+                    {
+                        src: "plugin/hide-slides/index.js",
+                        async: true,
+                    },
+                    {
+                        src: "//cdn.socket.io/socket.io-1.4.5.js",
+                        async: true,
+                    },
+                    {
+                        src: "plugin/multiplex/config.js",
+                        async: false,
+                    },
+                    {
+                        src: "plugin/multiplex/client.js",
+                        async: true,
+                    },
+                    {
+                        src: "plugin/multiplex/master.js",
+                        async: true,
+                    },
+                ],
+            });
+        </script>
+    </body>
+</html>
