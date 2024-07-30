@@ -337,6 +337,589 @@ doSthElse();
                             <img src="images/3/async/async-animation.png" />
                         </div>
                     </section>
+                    <section id="async-error">
+                        <img
+                            src="images/3/async/async-error.png"
+                            class="logo float-right"
+                        />
+                        <h2>Async Error Handling</h2>
+                        <p class="fragment">
+                            Handling errors inside async callbacks present some
+                            challenges
+                        </p>
+                        <small>
+                            <ul>
+                                <li class="fragment">
+                                    Stack trace loses all the callback
+                                    invocation context
+                                </li>
+                                <li class="fragment">
+                                    It is not possible to catch async callback
+                                    error
+                                </li>
+                            </ul>
+                        </small>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript" data-trim contenteditable style="font-size: 0.8rem; margin:0;">
+/* this pattern DOES NOT work! */
+function doAsyncTask(callback) {
+  setTimeout(() => {
+    // Simulate an error
+    if(/* Something went wrong*/) {
+        throw new Error('Something went wrong!');
+    }
+    callback('Data');
+  }, 1000);
+}
+function mainFunction() {
+    try {
+        doAsyncTask(function(data){
+            console.log('Data:', data);
+        });
+    } catch (error) {
+        console.error('Caught an error:', error);
+    }
+}
+/* Application will blow up with Uncaught Error and mainFunction call will not be present on stack trace */
+mainFunction();
+						</code>
+					</pre>
+                    </section>
+
+                    <section id="cb-error">
+                        <img
+                            src="images/3/async/callback-error-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Callback Error Handling</h2>
+                        <p class="fragment">
+                            A separate <u>error callback</u> or
+                            <u>callback error argument</u> is required <br />to
+                            pass error details from inside an async callback
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript" data-trim contenteditable style="font-size: 0.8em; margin:0;">
+function doAsyncTask(callback) {
+  setTimeout(() => {
+    // Simulate an error
+    if(/* Something went wrong*/) {
+        callback(new Error('Async operation failed!'))
+        return;
+    }
+    callback(null,'Data');
+  }, 1000);
+}
+
+function handleResult(error, data) {
+    if(error) {
+        console.error('Caught an async error:', error.message);
+        return;
+    }
+    console.log('Async operation completed successfully:', data);
+}
+
+function mainFunction() {
+    doAsyncTask(handleResult);
+}
+mainFunction();
+						</code>
+					</pre>
+                        <p class="fragment">
+                            <u>Error first</u> callbacks are a well know and
+                            established pattern
+                        </p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <img
+                            src="images/3/async/distress-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Callback Woes</h2>
+                        <p class="fragment">
+                            Two very important aspects of synchronous code
+                            <br />for function composition are:
+                        </p>
+                        <small>
+                            <ol>
+                                <li class="fragment">
+                                    They <u>return values</u> - feed the return
+                                    value from one function straight into the
+                                    next
+                                </li>
+                                <li class="fragment">
+                                    They <u>throw exceptions</u> - if one
+                                    function fails, all others in the chain are
+                                    bypassed until error is handled
+                                </li>
+                            </ol>
+                        </small>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript" data-trim contenteditable style="font-size: 0.8em; margin:0;">
+try {
+
+    const result = func3(func2(funct1()));
+
+} catch (error) {
+    // handle error
+}
+						</code>
+					</pre>
+                        <p class="fragment">
+                            With async callbacks we have
+                            <u>lost both aspects</u>!
+                        </p>
+                        <aside class="notes">
+                            <ul>
+                                <li>Return values are not ready on time</li>
+                                <li>Nobody is there to catch exceptions</li>
+                                <li>
+                                    Composition of return values involves nested
+                                    callbacks
+                                </li>
+                                <li>
+                                    Composition of errors involves passing them
+                                    up the chain manually
+                                </li>
+                            </ul>
+                            <b>next: </b>as a consequence of this, async
+                            callback flows are hard..
+                        </aside>
+                    </section>
+
+                    <section id="headache">
+                        <img
+                            src="images/3/async/headache.png"
+                            class="logo float-right"
+                        />
+                        <h2>Callback Headaches</h2>
+                        <div class="float-left clearfix" style="width: 48%">
+                            <small class="fragment"
+                                >Callbacks in sequence are hard...</small
+                            >
+                            <pre class="fragment" style="margin: 0">
+							<code class="javascript" data-trim contenteditable style="font-size: 0.8em; margin:0;">
+let result;
+
+f1(function(err, data) {
+
+    if (err) {
+        // handle error
+        return;
+    }
+
+    result = data;
+});
+
+const f1 = function(cb) {
+    f2(function(error, result) {
+        if (error) { cb(error); }
+        f3(function(error, result) {
+            cb(null, result);
+        });
+    })
+});
+							</code>
+						</pre>
+                        </div>
+                        <div class="float-right" style="width: 48%">
+                            <small class="fragment"
+                                >In parallel they are harder...</small
+                            >
+                            <pre
+                                class="fragment"
+                                style="margin: 0; line-height: 1em"
+                            >
+							<code class="javascript" data-trim contenteditable style="font-size: 0.60em; margin:0;">
+let result;
+const temporaryResults = [];
+
+f1(function (err, result) {
+  if (err) {
+    /* process error */ return;
+  }
+  finished(result);
+});
+
+f2(function (err, result) {
+  if (err) {
+    /* process error */ return;
+  }
+  finished(result);
+});
+
+f3(function (err, result) {
+  if (err) {
+    /* process error */ return;
+  }
+  finished(result);
+});
+
+function finished(data) {
+  temporaryResults.push(data);
+  if (temporaryResults.length === 3) {
+    result = temporaryResults[0] + temporaryResults[1] + temporaryResults[2];
+  }
+}
+							</code>
+						</pre>
+                        </div>
+                        <small
+                            class="fragment clearfix tight"
+                            style="display: block"
+                            >And errors <u>are easy</u> to lose!!!</small
+                        >
+                        <aside class="notes">
+                            <b>next: </b>lets talk about an abstraction created
+                            on top of async callbacks that helps us address this
+                        </aside>
+                    </section>
+
+                    <section id="promise">
+                        <img
+                            src="images/3/async/promise-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Promises</h2>
+                        <p class="fragment">
+                            An abstraction built on top of callbacks that gives
+                            us back <br />
+                            <u>functional composition</u> and
+                            <u>error bubbling</u> in the async world
+                        </p>
+                        <p class="fragment">
+                            A Promise object represents the
+                            <u>eventual completion</u> (or failure) <br />of an
+                            asynchronous operation and its resulting value
+                        </p>
+                        <div class="float-left" style="width: 48%">
+                            <small class="fragment">Easy in sequence...</small>
+                            <pre class="fragment" style="margin: 0">
+								<code class="javascript" data-trim contenteditable style="font-size: 0.8em; margin:0;">
+const result = f1()
+  .then(f2)
+  .then(f3)
+  .catch(function (error) {
+    // handle error
+  });
+
+								</code>
+							</pre>
+                        </div>
+                        <div class="float-left" style="width: 48%">
+                            <small class="fragment"
+                                >Equally as easy in parallel...</small
+                            >
+                            <pre class="fragment" style="margin: 0">
+								<code class="javascript" data-trim contenteditable style="font-size: 0.65em; margin:0;">
+const result = Promise.all([f1(), f2(), f3()])
+  .then(function (results) {
+    return results[0] + results[1] + results[2];
+  })
+  .catch(function (error) {
+    // handle error
+  });
+								</code>
+							</pre>
+                        </div>
+                        <p class="fragment">
+                            Un-invert the chain of responsibility: <br />instead
+                            of calling a passed callback, return a promise
+                        </p>
+                        <aside class="notes">
+                            <b>next: </b> so how do we create a promise?
+                        </aside>
+                    </section>
+
+                    <section id="creating-promises">
+                        <img
+                            src="images/3/async/promise-creation-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Creating Promises</h2>
+                        <p class="fragment clearfix">
+                            A promise can be created using a constructor
+                            function, <br />after which it will be in one of the
+                            following states:
+                        </p>
+                        <small>
+                            <ol>
+                                <li class="fragment">
+                                    <u>pending</u> - initial state, neither
+                                    fulfilled nor rejected
+                                </li>
+                                <li class="fragment">
+                                    <u>fulfilled</u> - the operation completed
+                                    successfully
+                                </li>
+                                <li class="fragment">
+                                    <u>rejected</u> - the operation failed
+                                </li>
+                            </ol>
+                        </small>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript" data-trim contenteditable style="margin:0;">
+const promise = new Promise(function (resolve, reject) {
+  const { success = false, data = null, errorMsg = null } = doSomethingAsync();
+
+  if (success) {
+    resolve(data); // promise will be resolved
+  } else {
+    reject(new Error(errorMsg)); // promise will be rejected
+  }
+});
+						</code>
+					</pre>
+                        <small class="fragment tight"
+                            >The constructor receives an
+                            <u>async function callback</u> with methods for
+                            resolving or rejecting the promise</small
+                        >
+                        <aside class="notes">
+                            <b>next: </b> creating promises is useful for
+                            wrapping old async APIs, but most of the times we
+                            will work with APIs that already return a promise.
+                            Created by us or not, how do we use it?
+                        </aside>
+                    </section>
+
+                    <section>
+                        <img
+                            src="images/3/async/promise-state-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Using Promises</h2>
+                        <p class="fragment">
+                            A promise is a an <i>thenable</i> object to which
+                            callbacks can be attached
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+						<code class="javascript" data-trim contenteditable>
+promise.then(
+  function (result) {
+    // invoked when the promise is resolved with the data
+    console.log(result); // will print the data
+  },
+  function (err) {
+    // invoked when the promise is rejected with an error
+    console.error(err);
+  },
+);
+						</code>
+					</pre>
+                        <p class="fragment">
+                            <b>then</b> takes two optional arguments, <br />a
+                            callback for success and another for failure
+                        </p>
+                        <small class="fragment"
+                            >Once a promise has been settled, its state can not
+                            be altered, but we can always add additional
+                            handlers to it</small
+                        >
+                        <aside class="notes">
+                            <b>next: </b> many times we want to chain two async
+                            operations together. For this, we can chain promises
+                        </aside>
+                    </section>
+
+                    <section id="chaining">
+                        <img
+                            src="images/3/async/chain-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Promise Chaining</h2>
+                        <p class="fragment">
+                            Promises can be chained together to transform values
+                            or <br />run additional async actions one after
+                            another
+                        </p>
+                        <pre class="fragment">
+						<code class="javascript" data-trim contenteditable>
+const promise = doSomethingAsync();
+
+promise
+  .then(doSomethingElseAsync)
+  .then(doSomethingElseAsync)
+  .then(doSomethingElseAsync, handleSpecificError)
+  .then(doSomethingElseAsync)
+  .then(doSomethingElseAsync)
+  .catch(handleGenericError)
+  .finally(alwaysRunThis);
+						</code>
+					</pre>
+                        <small class="fragment">
+                            Each <b>then</b> method returns a new promise, which
+                            can be chained with another <b>then</b> or
+                            <b>catch</b>
+                            handlers
+                        </small>
+                        <small class="fragment"
+                            >Both <u>specific</u> and <u>generic</u> error
+                            handling callbacks can be attached to
+                            promises</small
+                        >
+                    </section>
+
+                    <section id="what-we-have">
+                        <h2>This is what we have right now.</h2>
+
+                        <img src="images/3/async/promiseObject.svg" />
+                        <p class="fragment">
+                            A promise object that can be resolved or rejected
+                            and to which we can attach handlers to be executed
+                            when the promise is settled
+                        </p>
+                        <p class="fragment">
+                            When chained together we can create a flow of async
+                            actions that will be executed one after another
+                        </p>
+                    </section>
+                    <section id="promise-flow">
+                        <img
+                            src="images/3/async/promise-flow-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Advanced Async Flows</h2>
+                        <p class="fragment clearfix">
+                            And complex async flows can be achieved
+                        </p>
+                        <img
+                            class="float-left medium fragment"
+                            src="images/3/async/promise-flow.png"
+                            alt=""
+                        />
+                        <pre class="fragment float-right" style="width: 45%">
+						<code class="javascript" data-trim contenteditable>
+asyncThing1().then(function() {
+    return asyncThing2();
+}).then(function() {
+    return asyncThing3();
+}).catch(function(err) {
+    return asyncRecovery1();
+}).then(function() {
+    return asyncThing4();
+}, function(err) {
+    return asyncRecovery2();
+}).catch(function(err) {
+    console.log("Don't worry about it");
+}).then(function() {
+    console.log("All done!");
+});
+						</code>
+					</pre>
+                        <p class="fragment clearfix">
+                            <span style="color: blue">blue</span> lines for
+                            promises that fulfill or
+                            <span style="color: red">red</span> for ones that
+                            reject
+                        </p>
+                    </section>
+                    <section>
+                        <img
+                            src="images/3/async/promise-results.png"
+                            class="logo float-right"
+                        />
+                        <h2>Settled Promises</h2>
+                        <p class="fragment clearfix">
+                            It is possible to create settled promises
+                            <br />without actually performing any async action
+                        </p>
+                        <pre class="fragment tight">
+							<code class="javascript" data-trim contenteditable>
+function doSomethingAsync() {
+
+    if (/* some condition */) {
+        return new Promise(asyncCallback); // do async operation
+    }
+
+    // make sure we always return a promise, even if no async code has been executed
+
+    if (/* other condition */) {
+        return Promise.resolve(value);
+    } else {
+        return Promise.reject(new Error());
+    }
+}
+
+doSomethingAsync().then(onSuccess).catch(onError);
+							</code>
+						</pre>
+                        <small class="fragment tight">
+                            Since a promise is always returned, we can use then
+                            and catch callback methods <br />
+                            on the promise return value, which will
+                            <u>always</u> be executed in the next event loop
+                            tick
+                        </small>
+                    </section>
+                    <section id="parallel">
+                        <img
+                            src="images/3/async/promise-all-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Parallel Execution</h2>
+                        <p class="fragment">
+                            Parallel promises fulfill when
+                            <u>all of the promises</u> have fulfilled or <br />
+                            reject <u>as soon as one</u> of the promises reject
+                        </p>
+                        <pre class="fragment">
+						<code class="javascript" data-trim contenteditable>
+const promise = Promise.all([
+    doSomethingAsync(),
+    doSomethingAsync(),
+    doSomethingAsync().catch(handleSpecificError),
+    doSomethingAsync()
+    ]).catch(handleGenericError);
+						</code>
+					</pre>
+                        <p class="fragment">
+                            It fulfills with an <u>array of the values</u>
+                            <br />and rejects with the
+                            <u>reason from the first</u> promise that rejected
+                        </p>
+                    </section>
+                    <section>
+                        <img
+                            src="images/3/async/redundant-logo.png"
+                            class="logo float-right"
+                        />
+                        <h2>Redundant Promises</h2>
+                        <p class="fragment">
+                            It is possible to settle a promise
+                            <u>as soon as one</u> of many promises settles
+                        </p>
+                        <pre class="fragment">
+							<code class="javascript" data-trim contenteditable>
+var promise = Promise.race([
+    doSomethingAsync(),
+    doSomethingAsync(),
+    doSomethingAsync().catch(handleSpecificError),
+    doSomethingAsync()
+    ]).catch(handleGenericError);
+							</code>
+						</pre>
+                        <p class="fragment">
+                            Used when interested only in one of the results
+                        </p>
+                    </section>
+                    <section id="exercise-async">
+                        <div class="exercise" width="1rem">
+                            <h2>{ Exercise }</h2>
+                            <h3>
+                                <span style="color: green">
+                                    <b>&#10003;</b> </span
+                                >&nbsp;&nbsp;you should get a green check mark
+                                on all tests
+                            </h3>
+                            <img
+                                class="big"
+                                src="images/3/async/running-tests-async.png"
+                            />
+                        </div>
+                    </section>
                 </section>
             </div>
         </div>
