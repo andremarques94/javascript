@@ -921,6 +921,156 @@ var promise = Promise.race([
                         </div>
                     </section>
                 </section>
+                <section>
+                    <section id="ajax">
+                        <h2>Asyncronous Javascript And XML</h2>
+                        <p class="fragment">
+                            AJAX is a technique for creating better, faster and
+                            more interactive client-side web applications that
+                            allows loading data from a server without doing a
+                            full page refresh
+                        </p>
+
+                        <div
+                            style="
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                            "
+                            class="fragment"
+                        >
+                            <small style="width: 45%">
+                                <ul>
+                                    <li>
+                                        <b>JavaScript</b> for interacting with
+                                        the browser, responding to events, and
+                                        accessing and manipulating the DOM
+                                    </li>
+                                    <br />
+                                    <li class="fragment">
+                                        <b>XML (or JSON)</b>, which represents
+                                        the data exchanged between the server
+                                        and client
+                                    </li>
+                                    <br />
+                                    <li class="fragment">
+                                        An <b>XMLHttpRequest</b> object for
+                                        asynchronously exchanging data between
+                                        the client and the server
+                                    </li>
+                                </ul>
+                            </small>
+                            <img src="images/3/frontend-web/ajax-web.png" />
+                        </div>
+                        <br />
+                        <small class="fragment">
+                            Not a technology in itself, AJAX refers to a variety
+                            of technologies coming together
+                        </small>
+                    </section>
+                    <section>
+                        <h2>JavaScript Object Notation</h2>
+
+                        <p class="fragment">
+                            It is based on a subset of JavaScript and widely
+                            used in web applications to exchange data between
+                            the client and the server
+                        </p>
+                        <pre class="fragment">
+							<code class="javascript" data-trim contenteditable>
+// a plain js object
+const obj = { ticker: "AAPL", name: "Apple Inc" };
+
+// serialize an object into a JSON string
+const serObj = JSON.stringify(obj);
+
+console.log(typeof obj); // 'object'
+console.log(typeof serObj); // 'string'
+console.log(serObj); //'{"ticker":"AAPL","name":"Apple Inc"}'
+console.log(serObj.name); // undefined
+
+// deserialize a JSON string into an object
+const deSerObj = JSON.parse(serObj);
+
+console.log(typeof deSerObj); // 'object'
+console.log(deSerObj.name); // 'Apple Inc'
+                        </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h2>AJAX with Browser APIs</h2>
+                        <p class="fragment">
+                            The
+                            <a
+                                href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"
+                                target="_blank"
+                                >Fetch API</a
+                            >
+                            provides a promise based JavaScript interface for
+                            accessing and manipulating parts of the HTTP
+                            pipeline, such as requests and responses.
+                        </p>
+                        <div
+                            style="
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                margin: 0;
+                            "
+                        >
+                            <pre style="width: 45%" class="fragment">
+                                <code class="javascript" data-trim contenteditable>
+// a GET request
+function getData(url) {
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+}
+
+                                </code>
+                            </pre>
+                            <pre
+                                style="width: 45%; font-size: 0.8rem"
+                                class="fragment"
+                            >
+                                <code class="javascript" data-trim contenteditable>
+// a POST request
+function postData(data, url) {
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => response.json())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+                                </code>
+                            </pre>
+                        </div>
+                        <small class="fragment">
+                            A global fetch() function is available and provides
+                            an easy, logical way to fetch resources
+                            asynchronously across the network.
+                        </small>
+                    </section>
+                    <section>
+                        <div class="exercise">
+                            <h3>{ Exercise }</h3>
+                            <h4>Fetch Data</h4>
+                            <p>
+                                Load the customers from the JavaBank REST API
+                                using Fetch
+                            </p>
+                            <img
+                                src="images/3/async/javabanktable.png"
+                                class="big"
+                            />
+                        </div>
+                    </section>
+                </section>
             </div>
         </div>
 
