@@ -1071,6 +1071,288 @@ function postData(data, url) {
                         </div>
                     </section>
                 </section>
+                <section>
+                    <section>
+                        <h2>Async/Await</h2>
+                        <p class="fragment">
+                            Abstraction built on top of Promises/Generators that
+                            allows writing asynchronous code in a readable and
+                            synchronous looking fashion
+                        </p>
+                        <div
+                            style="
+                                display: flex;
+                                justify-content: space-around;
+                                align-items: center;
+                            "
+                        >
+                            <pre class="fragment" style="width: 45%">
+                            <code class="javascript" data-trim contenteditable>
+// With ES6 Promises
+function fetchUser(login) {
+  const api = "https://api.github.com/users";
+
+  return fetch(`${api}/${login}`)
+    .then((response) => response.json())
+    .then((user) => ({
+      name: user.name,
+      location: user.location,
+    }));
+}
+                            </code>
+                        </pre>
+
+                            <pre class="fragment" style="width: 50%">
+                            <code class="javascript" data-trim contenteditable>
+// With ES2017 async/await
+async function fetchUser(login) {
+  const api = "https://api.github.com/users";
+  const response = await fetch(`${api}/${login}`);
+  const user = await response.json();
+
+  return {
+    name: user.name,
+    location: user.location,
+  };
+}
+                            </code>
+                        </pre>
+                        </div>
+                        <small>
+                            <ul style="list-style-type: none">
+                                <li class="fragment">
+                                    <span style="color: red">async</span>
+                                    functions always return a Promise!
+                                </li>
+
+                                <li class="fragment">
+                                    <span style="color: red">await</span>
+                                    schedules the execution of the remaining of
+                                    the function to when the promise is
+                                    fulfilled!
+                                </li>
+                            </ul>
+                        </small>
+                    </section>
+                    <section>
+                        <h2>Awaiting asynchronous functions</h2>
+                        <p>
+                            We can only <b>await</b> on an async function
+                            <u>inside another</u> async function
+                        </p>
+
+                        <pre
+                            class="fragment"
+                            data-fragment-index="2"
+                            style="margin-bottom: 0; margin-top: 0"
+                        >
+                            <code class="javascript" data-trim contenteditable>
+async function sleep(timeout) {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+}
+
+(async function () {
+  await sleep(1000); // wait for 1 second
+  console.log("Done!");
+})();
+                            </code>
+                        </pre>
+                        <small class="fragment" data-fragment-index="3">
+                            Top level await has to be wrapped in an async IIFE
+                        </small>
+                        <pre
+                            class="fragment"
+                            data-fragment-index="3"
+                            style="margin-bottom: 0; margin-top: 0"
+                        >
+                            <code class="javascript" data-trim contenteditable>
+// non-Promise values are wrapped in a Promise
+let value1 = (async () => {
+  return await 42;
+})();
+let value2 = (async () => {
+  return 42;
+})();
+
+console.log(value1 instanceof Promise); // true
+console.log(value2 instanceof Promise); // true
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h2>Sequential Flows</h2>
+                        <p class="fragment">
+                            Mutiple promises can be executed sequentially using
+                            the await operator
+                        </p>
+
+                        <pre class="fragment">
+                            <code class="javascript" data-trim contenteditable>
+async function fetchGitHub(endpoint) {
+    const api = `https://api.github.com/${endpoint}`;
+    const response = await fetch(api);
+
+    return response.json(); // return the promise, no need to await
+}
+
+async function showRepos(login) {
+    const user = await fetchGitHub(`users/${login}`);
+    const repos = await fetchGitHub(`users/${login}/repos`);
+
+    console.log(`${user.name} repositories:`);
+    repos.forEach((repo) => console.log(repo.name));
+}
+                            </code>
+                        </pre>
+                        <small class="fragment">
+                            How can the showRepos function be optimized?
+                        </small>
+                    </section>
+                    <section>
+                        <h2>Parallel Flows</h2>
+                        <p class="fragment">
+                            The Promise.all method can be used to fire multiple
+                            promises in parallel
+                        </p>
+                        <pre class="fragment">
+                            <code class="javascript" data-trim contenteditable>
+async function fetchGitHub(endpoint) {
+  const api = `https://api.github.com/${endpoint}`;
+
+  const response = await fetch(api);
+  return response.json(); // return the promise, no need to await
+}
+
+async function showRepos(login) {
+  const [user, repos] = await Promise.all([
+    fetchGitHub(`users/${login}`),
+    fetchGitHub(`users/${login}/repos`),
+  ]);
+
+  console.log(`${user.name} repositories:`);
+  repos.forEach((repo) => console.log(repo.name));
+}
+                            </code>
+                        </pre>
+                        <small class="fragment">
+                            As soon as one promise gets rejected, Promise.all
+                            will reject
+                        </small>
+                    </section>
+                    <section>
+                        <h2>Error Handling</h2>
+                        <p class="fragment">
+                            Async functions return a rejected promise when an
+                            error is thrown
+                        </p>
+                        <div
+                            style="
+                                display: flex;
+                                justify-content: space-around;
+                                align-items: center;
+                                margin: 0px;
+                                padding: 0px;
+                            "
+                        >
+                            <pre class="fragment" style="width: 45%">
+                            <code class="javascript" data-trim contenteditable style="font-size: 0.8rem;">
+async function fetchGitHubUser(login) {
+  const api = `https://api.github.com/users/${login}`;
+  const response = await fetch(api);
+  const body = await response.json();
+
+  if (!response.ok) {
+    // throwing inside async rejects the returned promise
+    throw new Error(body.message);
+  }
+
+  return body;
+}
+                            </code>
+                        </pre>
+                            <pre class="fragment" style="width: 48%">
+                            <code class="javascript" style="font-size: 0.85rem;" data-trim contenteditable>
+async function showGitHubUser(login) {
+  try {
+    const user = await fetchGitHubUser(login);
+    console.log(`${user.name} is from ${user.location}`);
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+                            </code>
+                        </pre>
+                        </div>
+                        <p class="fragment" style="margin: 0; padding: 0">
+                            try/catch blocks can be used to handle errors in
+                            asynchronous functions
+                        </p>
+                    </section>
+                    <section>
+                        <h2>Looping with async/await</h2>
+                        <p class="fragment">
+                            We can use async/await inside regular for loops
+                        </p>
+                        <pre
+                            class="fragment"
+                            style="font-size: 0.8rem; margin-bottom: 0"
+                        >
+                        <code class="javascript " data-trim contenteditable>
+async function randomNums(howMany) {
+  let results = [];
+  for (let i = 0; i < howMany; i++) {
+    await sleep(1000);
+    results.push(Math.random());
+  }
+  return results;
+}
+
+(async () => {
+    const result = await randomNums(10);
+    console.log(result); // 10 random numbers after 10 seconds
+})()
+
+                        </code>
+                    </pre>
+                        <small class="fragment">
+                            But things do not work quite as expected inside a
+                            forEach or other array methods...
+                        </small>
+                        <pre
+                            class="fragment"
+                            style="
+                                font-size: 0.8rem;
+                                margin-top: 0;
+                                margin-bottom: 0;
+                            "
+                        >
+                            <code class="javascript" data-trim contenteditable>
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach( async (num) => {
+  await sleep(1000);
+  console.log(num);
+});
+
+console.log("Finished!");
+                            </code>
+                        </pre>
+                        <small class="fragment"
+                            >What do you believe the output to be? Why?</small
+                        >
+                    </section>
+                    <section>
+                        <div class="exercise">
+                            <h3>{ Exercise }</h3>
+                            <h4>
+                                Implement all CRUD operations for the javabank
+                                API using Fetch API and async/await
+                            </h4>
+                            <img
+                                src="images/3/async/javabanktable1.png"
+                                class="big"
+                            />
+                        </div>
+                    </section>
+                </section>
             </div>
         </div>
 
