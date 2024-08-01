@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+
+        <title>Code for All_</title>
+
+        <meta
+            name="description"
+            content="Transforma a tua vida com os cursos técnicos do Code for All_, antiga Academia de Código. Da programação à cibersegurança, oferecemos cursos para todos os níveis. Junta-te aos nossos ex-alunos e começa a programar o teu caminho para o sucesso"
+        />
+        <meta name="keyword" content="Code,for,All, portugal" />
+        <meta name="author" content="Code For All_" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
+
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"
+        />
+
+        <link rel="stylesheet" href="css/reveal.css" />
+        <link rel="stylesheet" href="css/theme/ac.css" id="theme" />
+
+        <!-- Use for presentation specific styling -->
+        <link rel="stylesheet" href="css/presentation.css" />
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css" />
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = window.location.search.match(/print-pdf/gi)
+                ? "css/print/pdf.css"
+                : "css/print/paper.css";
+            document.getElementsByTagName("head")[0].appendChild(link);
+        </script>
+
+        <!--[if lt IE 9]>
+            <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="header"><img id="logo" src="logo.png" /></div>
+
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <section id="spa">
+                        <img
+                            src="images/3/async/web-2.0.png"
+                            class="logo float-right"
+                        />
+                        <h2>Single Page Application</h2>
+                        <p class="fragment clearfix">
+                            Modern web application development paradigm made
+                            possible by AJAX and asynchronous programming
+                        </p>
+                        <img
+                            src="images/3/async/spa.webp"
+                            style="max-width: 40%; max-height: 250px"
+                            class="float-left fragment"
+                        />
+                        <ul style="max-width: 60%" class="float-right">
+                            <li class="fragment">
+                                Only <u>one web page</u> is requested from the
+                                server
+                            </li>
+                            <li class="fragment">
+                                Each new page is
+                                <u>generated dynamically</u> through JavaScript
+                                DOM manipulation
+                            </li>
+                            <li class="fragment">
+                                Code is typically organized in separate
+                                JavaScript <u>modules</u>
+                            </li>
+                            <li class="fragment">
+                                A <u>Router</u> module allows the creation and
+                                usage of multiple page URLs without page
+                                reloading
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section id="modules">
+                        <img
+                            src="images/3/async/js-modules.png"
+                            class="logo float-right"
+                        />
+                        <h2>JavaScript Modules</h2>
+                        <p class="fragment clearfix">
+                            A module is a reusable piece of code that
+                            encapsulates implementation details and exposes
+                            public methods so it can be used by other code
+                        </p>
+
+                        <p class="fragment">Modules should allow us to:</p>
+                        <ul>
+                            <li class="fragment">abstract code</li>
+                            <li class="fragment">encapsulate code</li>
+                            <li class="fragment">code reuse</li>
+                            <li class="fragment">manage code dependencies</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <img
+                            src="images/3/async/modular-js.jpg"
+                            class="logo float-right"
+                        />
+                        <h2>Modular JavaScript</h2>
+                        <p class="fragment clearfix">
+                            Before ES6, no official syntax to define modules
+                            existed and developers were often times forced to
+                            choose between:
+                        </p>
+                        <ul>
+                            <li class="fragment">
+                                code their entire application in a single file,
+                                which results in a
+                                <u>big mess</u>
+                            </li>
+                            <li class="fragment">
+                                expose on the global scope some variation of the
+                                module pattern which often lead to
+                                <u>namespace collisions</u>
+                            </li>
+                        </ul>
+                        <pre class="fragment" style="margin: 0">
+                            <code class="html" data-trim contenteditable style="font-size: 0.8em; margin:0;">
+&lt;!--
+    developers used to write a bunch of script tags with implicit dependencies that had to be
+    manually ordered and pray for no ordering issues or collisions on the global scope...
+--&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://code.jquery.com/jquery-3.2.1.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://www.google-analytics.com/analytics.js"&gt;&lt;/script&gt;
+&lt;script src="js/main.js"&gt;&lt;/script&gt;
+&lt;script src="js/module1.js"&gt;&lt;/script&gt;
+&lt;script src="js/module2.js"&gt;&lt;/script&gt;
+&lt;script src="js/module3.js"&gt;&lt;/script&gt;
+                            </code>
+                    </pre>
+                        <aside class="notes">
+                            each script tag will pollute the global scope with
+                            at least on object, which could potentially cause a
+                            namespace collision
+                        </aside>
+                    </section>
+
+                    <section>
+                        <img
+                            src="images/3/async/module-system.png"
+                            class="logo float-right"
+                        />
+                        <h2>Module Systems</h2>
+                        <p class="fragment clearfix">
+                            Various formats to define modules in JavaScript were
+                            developed, minimizing the lack of native JavaScript
+                            module syntax
+                        </p>
+                        <p class="fragment">
+                            Some of the most widely adapted and well known
+                            formats are:
+                        </p>
+                        <small>
+                            <ul>
+                                <li class="fragment">
+                                    <u>AMD</u> - Asynchronous Module Definition,
+                                    an asynchronous module system for the
+                                    browser
+                                </li>
+                                <li class="fragment">
+                                    <u>CommonJS</u> - Popular system used by
+                                    Node, can be used in the browser with tools
+                                    such as Browserify or Webpack
+                                </li>
+                                <li class="fragment">
+                                    <u>UMD</u> - Universal Module Definition,
+                                    supports both AMD and CommonJS modules, both
+                                    in Node and the Browser
+                                </li>
+                                <li class="fragment">
+                                    <u>ES6 modules</u> - native javascript
+                                    modules, supported on newer browsers only
+                                </li>
+                            </ul>
+                        </small>
+                    </section>
+
+                    <section id="es6-modules">
+                        <h2>ES6 Modules</h2>
+                        <p class="fragment clearfix">
+                            ES6 introduced a new standardized module format
+                            natively supported by modern browsers
+                        </p>
+
+                        <ul>
+                            <li class="fragment">One module per file</li>
+                            <li class="fragment">Module API is static</li>
+                            <li class="fragment">
+                                Modules are singletons and mantain state
+                            </li>
+                            <li class="fragment">
+                                Importing a module implies a blocking load
+                            </li>
+                        </ul>
+
+                        <p class="fragment">
+                            The mechanism for module loading is provided by the
+                            hosting environment (browser, node, webpack, etc.)
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>Module Exports</h2>
+                        <p class="fragment clearfix">
+                            The <u>export</u> keyword can be used in front of a
+                            declaration or as an operator with a list of
+                            bindings to export
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+                            <code class="javascript es6" data-trim contenteditable style="font-size: 0.8em; margin:0;">
+// all API members as named exports
+
+export function add() { } // export add binding
+export let multiplier = 100; // export multiplier binding
+
+let odds = [1, 3, 5];
+let evens = [2, 4, 6]
+let zero = 0;
+export { odds, evens }; // export odds and evens bindings
+export zero as nil; // export nil as alias to zero binding
+
+// one default export per module
+export default function substract() { } // default export
+                            </code>
+                        </pre>
+                        <small class="fragment">
+                            ES6 modules export immutable bindings, not values or
+                            references
+                        </small>
+                    </section>
+
+                    <section>
+                        <h2>Module Imports</h2>
+                        <p class="fragment clearfix">
+                            The <u>import</u> keyword can be used to load a
+                            module from another one
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+                        <code class="javascript" data-trim contenteditable style="font-size: 0.8em; margin:0;">
+//// loads, compiles and evaluates the module without actually importing any of its bindings
+import "module";
+
+// import the default export as sub
+import sub from "module";
+
+// import the named exports add and multiplier (aliased to mul)
+import { add, multiplier as mul } from "module";
+
+// import the entire module API to the single math namespace
+import * as math from "module";
+                        </code>
+                    </pre>
+                        <p class="fragment">
+                            <small>
+                                import only the specific bindings from a module
+                                that are required
+                            </small>
+                        </p>
+                    </section>
+                    <section>
+                        <h2>Browser Module Loading</h2>
+                        <p class="fragment clearfix">
+                            The latest browsers are already supporting module
+                            loading
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+                            <code class="html" data-trim contenteditable>
+<!-- index.html -->
+&lt;script type="module"&gt;
+    import { addTextToBody } from "./utils.js";
+
+    await addTextToBody("Modules without babel/webpack!!!");
+&lt;/script&gt;
+                            </code>
+                        </pre>
+
+                        <pre class="fragment" style="margin: 0">
+                            <code class="javascript es6" data-trim contenteditable>
+// utils.js
+export async function addTextToBody(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  document.body.appendChild(div);
+  return somethingAsync();
+}
+                            </code>
+                        </pre>
+
+                        <small class="fragment">
+                            The <code>type="module"</code> attribute tells the
+                            browser to load the inline or external script as an
+                            ES6 module
+                        </small>
+                        <small class="fragment">
+                            High level await is supported in modules
+                        </small>
+                    </section>
+                    <section>
+                        <h2>Dynamic Imports</h2>
+                        <p class="fragment clearfix">
+                            The <em>import()</em> syntax allow us to load
+                            modules conditionally or on demand, unlike static
+                            imports, which are loaded at the beginning of the
+                            program
+                        </p>
+                        <pre class="fragment" style="margin: 0">
+                            <code class="javascript es6" data-trim contenteditable>
+// index.js
+const link = document.querySelector("a");
+
+link.addEventListener("click", (e) => {
+  e.preventDefault();
+  try {
+    const module = await import("./my-module.js")
+    module.doSomething();
+  } catch (error) {
+    console.error("Failed to load the module", error);
+  }
+});
+                            </code>
+                        </pre>
+
+                        <ul style="font-size: 1rem">
+                            <li class="fragment">
+                                This is useful when we want to load a module
+                                only when a certain condition is met or when we
+                                want to load a module lazily to improve
+                                performance and reduce the initial load time
+                            </li>
+                            <li class="fragment">
+                                Dynamic imports return a promise that resolves
+                                to the module namespace object
+                            </li>
+                            <li class="fragment">
+                                The html file does not need to have the
+                                type=module attribute, when using dynamic
+                                imports
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <div class="exercise">
+                            <h2>{handsOn}</h2>
+                            <h3>Javabank CRUD with modules</h3>
+                        </div>
+                    </section>
+                </section>
+                <section>
+                    <section id="routing">
+                        <img
+                            src="images/3/async/routing.png"
+                            class="logo float-right"
+                        />
+                        <h2>Client Side Routing</h2>
+                        <p class="fragment clearfix">
+                            The SPA model breaks the browser page history
+                            navigation using the Forward/Back buttons
+                        </p>
+                        <p class="fragment">
+                            Both <b>Hash-based routing</b> and the
+                            <b>HTML5 History API</b> enable modifications to the
+                            page URL <u>without reloading the page</u>, allowing
+                            creation of separate URLs for different views
+                        </p>
+                    </section>
+
+                    <section id="hash">
+                        <img
+                            src="images/3/async/hash-route.png"
+                            class="logo float-right"
+                        />
+                        <h2>Hash-based Routing</h2>
+                        <p class="fragment clearfix">
+                            URLs can contain some data prepended with a
+                            <b>#</b> character<br /><span class="fragment"
+                                >This data is called the
+                                <u>hash fragment</u></span
+                            >
+                        </p>
+                        <pre class="fragment">
+                            <code class="javascript es6" data-trim contenteditable style="">
+const routes = {
+  home: {
+    hash: '#home',
+    controller: 'homeController'
+  },
+  info: {
+    hash: '#info',
+    controller: 'infoController'
+  }
+}
+
+window.addEventListener('hashChange' function(){
+  const controllerName = Object.keys(routes)
+                            .find(route => route.hash === window.location.hash);
+
+});
+                            </code>
+                        </pre>
+                        <small class="fragment">
+                            Changes in the hash fragment never trigger a page
+                            reload and can be used for storing the state of the
+                            client application
+                        </small>
+                    </section>
+
+                    <section>
+                        <div style="display: flex">
+                            <div>
+                                <h2>Pros</h2>
+                                <ul>
+                                    <li class="fragment">
+                                        Supported by all browsers
+                                    </li>
+                                    <li class="fragment">Easy to implement</li>
+                                    <li class="fragment">
+                                        Does not require server-side
+                                        configuration
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h2>Cons</h2>
+                                <ul>
+                                    <li class="fragment">Ugly URLs</li>
+                                    <li class="fragment">
+                                        Limited to the hash fragment
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>HTML5 History API</h2>
+                        <p class="fragment clearfix">
+                            Allows modifications to the browser's navigation
+                            stack through JavaScript. Enables current URL
+                            changes without triggering requests.
+                        </p>
+                        <img
+                            src="images/3/async/history-api.png"
+                            class="fragment"
+                            style="width: 50%"
+                        />
+                    </section>
+                    <section>
+                        <h2>History API based Routing</h2>
+                        <pre class="fragment">
+                        <code class="javascript es6" data-trim contenteditable>
+const routes = {
+  home: {
+    path: "/home",
+    controller: "homeController",
+  },
+  info: {
+    path: "/info",
+    controller: "infoController",
+  },
+};
+
+// accesible through the `window` object
+console.log(window.history);
+
+// changes current url to `/home`
+// adds a new entry to the navigation stack
+window.history.pushState(routes[0].home, "", routes[0].home.path);
+
+// changes current url to `/info`
+// replaces the last entry in the navigation stack
+window.history.replaceState(routes[0].home, "", routes[0].home.path);
+
+// Event handler will be called everytime user navigates
+// on your website using back/forward buttons
+// Will include the associated state object in
+// the callback function's argument
+window.addEventListener("popstate", function (event) {
+  console.log(`User navigation!`);
+  console.log(`Location: ${document.location.pathname}`);
+  console.log(`State:`, event.state);
+});
+                        </code>
+                    </pre>
+                        <small class="fragment">
+                            The second parameter exists for historical reasons,
+                            and cannot be omitted; passing the empty string is
+                            traditional, and safe against future changes to the
+                            method.
+                        </small>
+                    </section>
+                    <section>
+                        <div
+                            style="
+                                display: flex;
+                                justify-content: space-between;
+                            "
+                        >
+                            <div>
+                                <h2>Pros</h2>
+                                <ul>
+                                    <li class="fragment">Clean URLs</li>
+                                    <li class="fragment">
+                                        Full control over the URL
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h2>Cons</h2>
+                                <ul>
+                                    <li class="fragment">
+                                        Requires server-side configuration
+                                    </li>
+                                    <li class="fragment">
+                                        Not supported by all browsers
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h2>So, which one to choose?</h2>
+                        <p class="fragment">
+                            The choice between them depends on the requirements
+                            of the application:
+                        </p>
+                        <p class="fragment">
+                            <b>Hash-based routing</b> is a good choice for small
+                            applications, or when you don't have control over
+                            the server configuration or when you need to support
+                            older browsers
+                        </p>
+                        <p class="fragment">
+                            <b>History API</b> is a better choice for larger
+                            applications, where you need to have full control
+                            over the URL and the navigation stack
+                        </p>
+
+                        <small class="fragment">
+                            <strong
+                                >Don't forget to overide the default behavior of
+                                HTML elements that manipulate the Browser
+                                History Stack
+                            </strong>
+                        </small>
+                    </section>
+                    <section>
+                        <div class="exercise">
+                            <h2>{ Exercise }</h2>
+                            <h3>SPA with history API</h3>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            /*jshint -W117 */
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                keyboard: true,
+                center: true,
+                help: true,
+                progress: true,
+                slideNumber: true,
+                history: false,
+                boundaries: {
+                    episode: 33,
+                    bootcamps: [
+                        {
+                            name: "lisboa",
+                            id: 2,
+                        },
+                        {
+                            name: "fundao",
+                            id: 1,
+                        },
+                        {
+                            name: "terceira",
+                            id: 3,
+                        },
+                        {
+                            name: "porto",
+                            id: 5,
+                        },
+                    ],
+                },
+                width: 1024,
+                overview: true,
+
+                controls: false,
+                keyboard: true,
+                center: true,
+                help: true,
+                progress: true,
+                slideNumber: true,
+                history: false,
+                transition: "slide", // none/fade/slide/convex/concave/zoom,
+
+                menu: {
+                    // Specifies which side of the presentation the menu will
+                    // be shown. Use 'left' or 'right'.
+                    side: "left",
+
+                    // Hide slides from the menu that do not have a title.
+                    // Set to 'true' to only list slides with titles.
+                    hideMissingTitles: true,
+
+                    // Add markers to the slide titles to indicate the
+                    // progress through the presentation
+                    markers: false,
+
+                    // Specify custom panels to be included in the menu, by
+                    // providing an array of objects with 'title', 'icon'
+                    // properties, and either a 'src' or 'content' property.
+                    custom: false,
+
+                    // Specifies the themes that will be available in the themes
+                    // menu panel. Set to 'false' to hide themes panel.
+                    themes: false,
+
+                    // Specifies if the transitions menu panel will be shown.
+                    transitions: true,
+
+                    // Adds a menu button to the slides to open the menu panel.
+                    // Set to 'false' to hide the button.
+                    openButton: true,
+
+                    // If 'true' allows the slide number in the presentation to
+                    // open the menu panel. The reveal.js slideNumber option must
+                    // be displayed for this to take effect
+                    openSlideNumber: false,
+
+                    // If 'true' allows the slide number in the presentation to
+                    // open the menu panel. The reveal.js slideNumber option must
+                    // be displayed for this to take effect
+                    openSlideNumber: false,
+
+                    // If true allows the user to open and navigate the menu using
+                    // the keyboard. Standard keyboard interaction with reveal
+                    // will be disabled while the menu is open.
+                    keyboard: true,
+                },
+
+                // Specifies episode for limits-app
+                episode: 33,
+                // Optional reveal.js plugins
+                dependencies: [
+                    {
+                        src: "lib/js/classList.js",
+                        condition: function () {
+                            return !document.body.classList;
+                        },
+                    },
+                    {
+                        src: "plugin/markdown/marked.js",
+                        condition: function () {
+                            return !!document.querySelector("[data-markdown]");
+                        },
+                    },
+                    {
+                        src: "plugin/markdown/markdown.js",
+                        condition: function () {
+                            return !!document.querySelector("[data-markdown]");
+                        },
+                    },
+                    {
+                        src: "plugin/highlight/highlight.js",
+                        async: true,
+                        condition: function () {
+                            return !!document.querySelector("pre code");
+                        },
+                        callback: function () {
+                            hljs.initHighlightingOnLoad();
+                        },
+                    },
+                    {
+                        src: "plugin/zoom-js/zoom.js",
+                        async: true,
+                    },
+                    {
+                        src: "plugin/notes/notes.js",
+                        async: true,
+                    },
+                    {
+                        src: "plugin/bootcamp/config.js",
+                        async: false,
+                    },
+                    {
+                        src: "plugin/hide-slides/index.js",
+                        async: true,
+                    },
+                    {
+                        src: "//cdn.socket.io/socket.io-1.4.5.js",
+                        async: true,
+                    },
+                    {
+                        src: "plugin/multiplex/config.js",
+                        async: false,
+                    },
+                    {
+                        src: "plugin/multiplex/client.js",
+                        async: true,
+                    },
+                    {
+                        src: "plugin/multiplex/master.js",
+                        async: true,
+                    },
+                ],
+            });
+        </script>
+    </body>
+</html>
